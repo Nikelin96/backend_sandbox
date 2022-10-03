@@ -20,8 +20,10 @@ CREATE TABLE IF NOT EXISTS stat
 	hit_points SMALLINT NULL,
 	defense_points SMALLINT NULL,
 	damage_points SMALLINT NULL,
-	healing_points SMALLINT NULL
+	health_points SMALLINT NULL
 );
+
+DROP TYPE IF EXISTS transaction_type;
 
 CREATE TYPE transaction_type AS ENUM ('income', 'expense');
 

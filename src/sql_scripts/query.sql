@@ -3,7 +3,7 @@ SELECT
 	, unit_stat.hit_points AS unit_hp
 	, unit_stat.damage_points AS unit_damage
 	, unit_stat.defense_points AS unit_defense
-	, unit_stat.healing_points AS unit_healing
+	, unit_stat.health_points AS unit_health
 	, unit_storage.wood AS unit_wood
 	, unit_storage.food AS unit_food
 	, unit_storage.gold AS unit_gold
@@ -12,7 +12,7 @@ SELECT
 	, equipment_stat.hit_points AS equipment_hp
 	, equipment_stat.damage_points AS equipment_damage
 	, equipment_stat.defense_points AS equipment_defense
-	, equipment_stat.healing_points AS equipment_healing
+	, equipment_stat.health_points AS equipment_health
 	, equipment_storage.wood AS equipment_wood
 	, equipment_storage.food AS equipment_food
 	, equipment_storage.gold AS equipment_gold

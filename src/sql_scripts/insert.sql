@@ -3,7 +3,7 @@
 INSERT INTO 
     storage(food, gold, wood)
 VALUES
-    (5, 10, NULL); -- for spearmen
+    (5, 10, NULL), -- for spearmen
     (NULL, NULL, 5); -- for spear
 
 INSERT INTO 
