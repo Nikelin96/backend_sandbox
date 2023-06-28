@@ -1,0 +1,14 @@
+[
+  {
+    "system_type": "Sql",
+    "step_type": "Sql",
+    "step_name": "SecondSourceExampleStep",
+    "variables_to_capture": null
+  },
+  {
+    "system_type": "GraphQL",
+    "step_type": "Json",
+    "step_name": "SecondSourceExampleStep",
+    "variables_to_capture": null
+  }
+]

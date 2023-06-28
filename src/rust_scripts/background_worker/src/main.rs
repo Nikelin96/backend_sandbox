@@ -1,28 +1,43 @@
-
-use std::time::Duration;
-use tokio::fs;
+mod structures;
+use structures::Scenario;
+use tokio::sync::mpsc;
+mod steps_monitor;
 
 #[tokio::main]
 async fn main() {
-    // Spawn a new task to read the JSON file every minute
+    let (sender, mut receiver) = mpsc::channel::<Scenario>(10);
+
+    let sender_second = sender.clone();
+    let sender_third = sender.clone();
+
     tokio::spawn(async move {
-        loop {
-            let file_contents = read_file().await.unwrap();
-            println!("File contents: {}", file_contents);
-            tokio::time::sleep(Duration::from_secs(60)).await;
+        let file_path = "example_scenarios.json";
+        if let Err(e) = steps_monitor::read_scenarios_from_file_async(file_path, sender).await {
+            eprintln!("Error reading scenarios from file: {}", e);
         }
     });
 
-    // Main execution thread accepts string input
-    loop {
-        let mut input = String::new();
-        println!("Enter a string:");
-        std::io::stdin().read_line(&mut input).unwrap();
-        println!("You entered: {}", input);
-    }
-}
+    tokio::spawn(async move {
+        if let Err(e) = steps_monitor::read_scenarios_from_memory_async(sender_second).await {
+            eprintln!("Error reading scenarios from memory: {}", e);
+        }
+    });
 
-async fn read_file() -> Result<String, std::io::Error> {
-    let file_contents = fs::read_to_string("example.json").await?;
-    Ok(file_contents)
+    tokio::spawn(async move {
+        let second_file_path = "example_scenarios2.json";
+        if let Err(e) =
+            steps_monitor::read_scenarios_from_file_async(second_file_path, sender_third).await
+        {
+            eprintln!("Error reading scenarios from file: {}", e);
+        }
+    });
+
+    // Process the received scenarios
+    while let Some(scenario) = receiver.recv().await {
+        let processor = steps_monitor::get_scenario_processor(&scenario.system_type);
+        match processor.handle_step(&scenario) {
+            Ok(_) => println!("Successfully processed scenario: {}", scenario),
+            Err(e) => eprintln!("Error processing scenario: {}\nError: {}", scenario, e),
+        }
+    }
 }
