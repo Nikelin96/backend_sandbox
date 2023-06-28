@@ -1,0 +1,46 @@
+[
+  {
+    "system_type": "Crm",
+    "step_type": "login",
+    "step_name": "Login to CRM",
+    "payload": {
+      "sdgs": [
+        {
+          "createByWorkflow": ["Shipment"],
+          "fromSite": "RTP",
+          "toSite": "Cambridge"
+        },
+        {
+          "createByWorkflow": ["Shipment"],
+          "fromSite": "RTP",
+          "toSite": "Cambridge"
+        }
+      ]
+    },
+    "variables_to_capture": {
+      "shipmentNames": "$.payload.sdgs..name",
+      "shipmentIds": "$.payload.sdgs..id"
+    }
+  },
+  {
+    "system_type": "Crm",
+    "step_type": "create",
+    "step_name": "Create Entities in CRM",
+    "payload": {
+      "entityName": "Request Shipment",
+      "name": "R*shipmentNames[0]*-A*shipmentIds[0]*"
+    }
+  },
+  {
+    "system_type": "Sql",
+    "step_type": "Sql",
+    "step_name": "ExampleStep",
+    "variables_to_capture": null
+  },
+  {
+    "system_type": "GraphQL",
+    "step_type": "Json",
+    "step_name": "AnotherStep",
+    "variables_to_capture": null
+  }
+]
