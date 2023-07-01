@@ -61,7 +61,7 @@ LEFT JOIN unit AS u
 ON u.storage_id = s.id
 LEFT JOIN equipment AS e
 ON e.storage_id = s.id
-WHERE u.name LIKE 'Spearmen' OR e.name LIKE 'Mail armor'
+WHERE u.name LIKE 'Spearmen' OR e.name LIKE 'Mail armor';
 
 
 SELECT * FROM equipment;
