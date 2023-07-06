@@ -7,3 +7,4 @@
 /.vs/backend_sandbox/v16/.suo
 /.vs/
 /src/rust_scripts/background_worker/target
+/src/.vs
