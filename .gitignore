@@ -8,3 +8,4 @@
 /.vs/
 /src/rust_scripts/background_worker/target
 /src/.vs
+/src/rust_scripts/webassembly_worker/target
