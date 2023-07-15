@@ -42,7 +42,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/mcs-plugin/**/*.ts",
-          "packages/mcs-plugin/package.json"
+          "packages/mcs-plugin/package.json",
+          "packages/mcs-plugin/generators.json"
         ]
       }
     },
