@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-space/mcs-plugin": ["packages/mcs-plugin/src/index.ts"]
+      "@nx-space/mcs-plugin": ["packages/mcs-plugin/src/index.ts"],
+      "@nx-space/mcs-plugins": ["packages/mcs-plugins/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

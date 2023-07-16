@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "mcs-generator": {
-      "factory": "./src/generators/mcs-generator/generator",
-      "schema": "./src/generators/mcs-generator/schema.json",
-      "description": "mcs-generator generator"
-    }
-  }
-}

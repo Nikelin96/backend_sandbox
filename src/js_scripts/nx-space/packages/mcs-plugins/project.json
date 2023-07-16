@@ -1,35 +1,35 @@
 {
-  "name": "mcs-plugin",
+  "name": "mcs-plugins",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/mcs-plugin/src",
+  "sourceRoot": "packages/mcs-plugins/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/mcs-plugin",
-        "main": "packages/mcs-plugin/src/index.ts",
-        "tsConfig": "packages/mcs-plugin/tsconfig.lib.json",
+        "outputPath": "dist/packages/mcs-plugins",
+        "main": "packages/mcs-plugins/src/index.ts",
+        "tsConfig": "packages/mcs-plugins/tsconfig.lib.json",
         "assets": [
-          "packages/mcs-plugin/*.md",
+          "packages/mcs-plugins/*.md",
           {
-            "input": "./packages/mcs-plugin/src",
+            "input": "./packages/mcs-plugins/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/mcs-plugin/src",
+            "input": "./packages/mcs-plugins/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/mcs-plugin",
+            "input": "./packages/mcs-plugins",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/mcs-plugin",
+            "input": "./packages/mcs-plugins",
             "glob": "executors.json",
             "output": "."
           }
@@ -41,9 +41,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/mcs-plugin/**/*.ts",
-          "packages/mcs-plugin/package.json",
-          "packages/mcs-plugin/generators.json"
+          "packages/mcs-plugins/**/*.ts",
+          "packages/mcs-plugins/package.json"
         ]
       }
     },
@@ -51,7 +50,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/mcs-plugin/jest.config.ts",
+        "jestConfig": "packages/mcs-plugins/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
