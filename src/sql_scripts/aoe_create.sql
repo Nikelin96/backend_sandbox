@@ -106,4 +106,10 @@ CREATE TABLE IF NOT EXISTS kingdom_technology (
     research_status research_status_type,
     research_start_time TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS kingdom_unit (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    kingdom_id SMALLINT NOT NULL REFERENCES kingdom(id) ON DELETE CASCADE,
+    unit_id SMALLINT NOT NULL REFERENCES unit(id) ON DELETE CASCADE,
+    kingdom_transaction_id SMALLINT NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE
+);
 COMMIT;
