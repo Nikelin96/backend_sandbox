@@ -20,6 +20,6 @@ INSERT INTO blueprint_dependency (blueprint_id, is_required, unit_id) VALUES(1, 
 
 -- Inserting transaction: 'Kingdom' -> 'expense'
 INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 10, 10, 10, 10);
-INSERT INTO kingdom_blueprint (kingdom_id, blueprint_id, transaction_id, research_status, research_start_time) VALUES(1, 1, 2, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
+INSERT INTO kingdom_blueprint (kingdom_id, blueprint_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 1, 2, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
 
 COMMIT;

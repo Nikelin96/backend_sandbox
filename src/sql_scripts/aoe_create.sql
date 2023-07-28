@@ -52,7 +52,13 @@ CREATE TABLE IF NOT EXISTS kingdom_transaction (
     wood SMALLINT NULL,
     food SMALLINT NULL,
     gold SMALLINT NULL,
-    stone SMALLINT NULL,
+    stone SMALLINT NULL
+);
+CREATE TABLE IF NOT EXISTS blueprint (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50),
+    description VARCHAR(300),
+    research_time SMALLINT
 );
 CREATE TABLE IF NOT EXISTS price (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -60,25 +66,7 @@ CREATE TABLE IF NOT EXISTS price (
     food SMALLINT NULL,
     gold SMALLINT NULL,
     stone SMALLINT NULL,
-    blueprint_id SMALLINT NOT NULL REFERENCES blueprint(id) ON DELETE CASCADE,
-);
-CREATE TABLE blueprint (
-    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(50),
-    description VARCHAR(300),
-    research_time SMALLINT,
-);
-CREATE TABLE blueprint_dependency (
-    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    blueprint_id SMALLINT REFERENCES blueprint(id),
-    is_required BOOLEAN NOT NULL,
-    unit_id SMALLINT REFERENCES unit(id),
-);
-CREATE TABLE IF NOT EXISTS unit (
-    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    kingdom_id SMALLINT REFERENCES kingdom(id),
-    stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
+    blueprint_id SMALLINT NOT NULL REFERENCES blueprint(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS stat (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -87,12 +75,24 @@ CREATE TABLE IF NOT EXISTS stat (
     damage_points SMALLINT NULL,
     health_points SMALLINT NULL
 );
+CREATE TABLE IF NOT EXISTS unit (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    kingdom_id SMALLINT REFERENCES kingdom(id),
+    stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS blueprint_dependency (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    blueprint_id SMALLINT REFERENCES blueprint(id),
+    is_required BOOLEAN NOT NULL,
+    unit_id SMALLINT REFERENCES unit(id)
+);
 CREATE TABLE IF NOT EXISTS kingdom_blueprint (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    kingdom_id SMALLINT NOT NULL REFERENCES kingdom_id(id) ON DELETE CASCADE,
+    kingdom_id SMALLINT NOT NULL REFERENCES kingdom(id) ON DELETE CASCADE,
     blueprint_id SMALLINT NOT NULL REFERENCES blueprint(id) ON DELETE CASCADE,
-    transaction_id SMALLINT NOT NULL REFERENCES transaction_id(id) ON DELETE CASCADE,
+    kingdom_transaction_id SMALLINT NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE,
     research_status research_status_type,
-    research_start_time TIMESTAMP,
+    research_start_time TIMESTAMP
 );
 COMMIT;
