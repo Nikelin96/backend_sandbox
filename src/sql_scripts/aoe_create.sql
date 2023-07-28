@@ -54,19 +54,11 @@ CREATE TABLE IF NOT EXISTS kingdom_transaction (
     gold SMALLINT NULL,
     stone SMALLINT NULL
 );
-CREATE TABLE IF NOT EXISTS blueprint (
+CREATE TABLE IF NOT EXISTS technology (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(50),
     description VARCHAR(300),
     research_time SMALLINT
-);
-CREATE TABLE IF NOT EXISTS price (
-    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    wood SMALLINT NULL,
-    food SMALLINT NULL,
-    gold SMALLINT NULL,
-    stone SMALLINT NULL,
-    blueprint_id SMALLINT NOT NULL REFERENCES blueprint(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS stat (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -81,16 +73,35 @@ CREATE TABLE IF NOT EXISTS unit (
     kingdom_id SMALLINT REFERENCES kingdom(id),
     stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS blueprint_dependency (
+CREATE TABLE IF NOT EXISTS price (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    blueprint_id SMALLINT REFERENCES blueprint(id),
+    wood SMALLINT NULL,
+    food SMALLINT NULL,
+    gold SMALLINT NULL,
+    stone SMALLINT NULL,
+    technology_id SMALLINT REFERENCES technology(id) ON DELETE CASCADE,
+    unit_id SMALLINT REFERENCES unit(id) ON DELETE CASCADE,
+    CHECK (
+        (
+            technology_id IS NOT NULL
+            AND unit_id IS NULL
+        )
+        OR (
+            technology_id IS NULL
+            AND unit_id IS NOT NULL
+        )
+    )
+);
+CREATE TABLE IF NOT EXISTS technology_dependency (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    technology_id SMALLINT REFERENCES technology(id),
     is_required BOOLEAN NOT NULL,
     unit_id SMALLINT REFERENCES unit(id)
 );
-CREATE TABLE IF NOT EXISTS kingdom_blueprint (
+CREATE TABLE IF NOT EXISTS kingdom_technology (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     kingdom_id SMALLINT NOT NULL REFERENCES kingdom(id) ON DELETE CASCADE,
-    blueprint_id SMALLINT NOT NULL REFERENCES blueprint(id) ON DELETE CASCADE,
+    technology_id SMALLINT NOT NULL REFERENCES technology(id) ON DELETE CASCADE,
     kingdom_transaction_id SMALLINT NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE,
     research_status research_status_type,
     research_start_time TIMESTAMP
