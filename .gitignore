@@ -2,12 +2,27 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/VSWorkspaceState.json
-/.vs/slnx.sqlite
-/.vs/backend_sandbox/v16/.suo
-/.vs/
 /src/rust_scripts/background_worker/target
-/src/.vs
 /src/rust_scripts/webassembly_worker/target
 /src/js_scripts/node_modules
-/src/sql_scripts/.vs
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+.vscode/
