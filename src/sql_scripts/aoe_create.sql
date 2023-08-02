@@ -19,21 +19,21 @@ DO $$ BEGIN IF NOT EXISTS (
 );
 END IF;
 END $$;
--- DO $$ BEGIN IF NOT EXISTS (
---     SELECT 1
---     FROM pg_type
---     WHERE typname = 'skill_type'
--- ) THEN CREATE TYPE skill_type AS ENUM (
---     'attack',
---     'defend',
---     'heal',
---     'kick',
---     'bash',
---     'dash',
---     'rally'
--- );
--- END IF;
--- END $$;
+DO $$ BEGIN IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type
+    WHERE typname = 'skill_type'
+) THEN CREATE TYPE skill_type AS ENUM (
+    'attack',
+    'defend',
+    'heal',
+    'kick',
+    'bash',
+    'dash',
+    'rally'
+);
+END IF;
+END $$;
 CREATE TABLE IF NOT EXISTS continent (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(50) NOT NULL,
@@ -73,6 +73,16 @@ CREATE TABLE IF NOT EXISTS unit (
     kingdom_id SMALLINT REFERENCES kingdom(id),
     stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS skill (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    type skill_type NOT NULL,
+    stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS equipment (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    stat_id SMALLINT REFERENCES stat(id) ON DELETE CASCADE
+);
 CREATE TABLE IF NOT EXISTS price (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     wood SMALLINT NULL,
@@ -81,22 +91,71 @@ CREATE TABLE IF NOT EXISTS price (
     stone SMALLINT NULL,
     technology_id SMALLINT REFERENCES technology(id) ON DELETE CASCADE,
     unit_id SMALLINT REFERENCES unit(id) ON DELETE CASCADE,
+    skill_id SMALLINT REFERENCES skill(id) ON DELETE CASCADE,
+    equipment_id SMALLINT REFERENCES equipment(id) ON DELETE CASCADE,
     CHECK (
         (
             technology_id IS NOT NULL
             AND unit_id IS NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NULL
         )
         OR (
             technology_id IS NULL
             AND unit_id IS NOT NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            technology_id IS NULL
+            AND unit_id IS NULL
+            AND skill_id IS NOT NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            technology_id IS NULL
+            AND unit_id IS NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NOT NULL
         )
     )
+);
+CREATE TABLE IF NOT EXISTS unit_skill (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    skill_id SMALLINT NOT NULL REFERENCES skill(id) ON DELETE CASCADE,
+    unit_id SMALLINT NOT NULL REFERENCES unit(id) ON DELETE CASCADE,
+    kingdom_transaction_id SMALLINT NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS unit_equipment (
+    id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    equipment_id SMALLINT NOT NULL REFERENCES equipment(id) ON DELETE CASCADE,
+    unit_id SMALLINT NOT NULL REFERENCES unit(id) ON DELETE CASCADE,
+    kingdom_transaction_id SMALLINT NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS technology_dependency (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     technology_id SMALLINT REFERENCES technology(id),
     is_required BOOLEAN NOT NULL,
-    unit_id SMALLINT REFERENCES unit(id)
+    unit_id SMALLINT REFERENCES unit(id),
+    skill_id SMALLINT REFERENCES skill(id),
+    equipment_id SMALLINT REFERENCES equipment(id),
+    CHECK (
+        (
+            unit_id IS NOT NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            unit_id IS NULL
+            AND skill_id IS NOT NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            unit_id IS NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NOT NULL
+        )
+    )
 );
 CREATE TABLE IF NOT EXISTS kingdom_technology (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
