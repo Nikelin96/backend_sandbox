@@ -10,3 +10,4 @@
 /src/.vs
 /src/rust_scripts/webassembly_worker/target
 /src/js_scripts/node_modules
+/src/sql_scripts/.vs
