@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcBackendService;
 using GrpcBackendService.Models;
@@ -14,13 +15,31 @@ public class GreeterService : Greeter.GreeterBase
         _repository = dataRepository;
     }
 
-    public override async Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+    public override async Task<HelloReply> GetAllKingdoms(HelloRequest request, ServerCallContext context)
     {
-        var x = await _repository.GetAll();
+        var kingdoms = await _repository.GetAll();
 
         return await Task.FromResult(new HelloReply
         {
             Message = "Hello " + request.Name
         });
+    }
+
+    public override async Task GetKingdomWithTechologies(HelloRequest request, IServerStreamWriter<HelloReply> responseStream, ServerCallContext context)
+    {
+        var kingdom = await _repository.GetById(1);
+
+        var reply = new HelloReply
+        {
+            Message = "hello " + request.Name
+        };
+
+        var i = 0;
+        while (!context.CancellationToken.IsCancellationRequested && i < 10)
+        {
+            await Task.Delay(1000);
+            await responseStream.WriteAsync(reply);
+            i++;
+        }
     }
 }

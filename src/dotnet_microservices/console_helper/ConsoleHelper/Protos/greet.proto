@@ -6,10 +6,10 @@ package greet;
 
 // The greeting service definition.
 service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+    // Sends a greeting
+  rpc GetAllKingdoms (HelloRequest) returns (HelloReply);
 
-  rpc LotsOfReplies(UserRequest) returns(stream UserResponse);
+  rpc GetKingdomWithTechologies (HelloRequest) returns (stream HelloReply);
 }
 
 // The request message containing the user's name.

@@ -1,10 +1,15 @@
 ﻿using Dapper;
+using Dapper.FluentMap;
+using GrpcBackendService.Models;
+using GrpcBackendService.Models.Mappings;
 using Npgsql;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Reflection;
 
 namespace GrpcBackendService.Helpers
 {
-    public class DataContext
+    public sealed class DataContext
     {
         private static string Host = "localhost";
         private static string User = "postgres";
@@ -34,6 +39,7 @@ namespace GrpcBackendService.Helpers
             return new NpgsqlConnection(connString);
         }
 
+
         public async Task Init()
         {
             // create database tables if they don't exist
@@ -49,6 +55,11 @@ namespace GrpcBackendService.Helpers
                 await connection.ExecuteAsync(scriptSql);
             }
 
+            FluentMapper.Initialize(config =>
+            {
+                //config.AddMap(new TechnologyMap());
+                config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>();
+            });
         }
     }
 }
