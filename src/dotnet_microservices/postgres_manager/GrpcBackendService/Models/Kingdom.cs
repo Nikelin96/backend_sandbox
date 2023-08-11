@@ -3,10 +3,14 @@ public sealed class Kingdom
 {
     public Kingdom()
     {
-        Technologies = new List<Technology>();
+        //Technologies = new List<Technology>();
     }
 
     public string? Name { get; set; }
 
-    public List<Technology> Technologies { get; set; }
+    public string? TechnologyName { get; set; }
+
+    public string? ResearchStatus { get; set; }
+
+    //public List<Technology> Technologies { get; set; }
 }
