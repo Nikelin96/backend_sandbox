@@ -1,11 +1,9 @@
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using GrpcBackendService;
 using GrpcBackendService.Models;
 
 namespace GrpcBackendService.Services;
 
-public class GreeterService : Greeter.GreeterBase
+public sealed class GreeterService : Greeter.GreeterBase
 {
     private readonly ILogger<GreeterService> _logger;
     private readonly IDataRepository<Kingdom> _repository;
