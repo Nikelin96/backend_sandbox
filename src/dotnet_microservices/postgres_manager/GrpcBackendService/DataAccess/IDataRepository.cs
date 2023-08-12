@@ -1,4 +1,4 @@
-﻿namespace GrpcBackendService.Services;
+﻿namespace GrpcBackendService.DataAccess;
 public interface IDataRepository<T> where T : class, new()
 {
     public Task<IEnumerable<T>> GetAll();

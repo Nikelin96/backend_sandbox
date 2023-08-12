@@ -1,4 +1,5 @@
 using Grpc.Core;
+using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 
 namespace GrpcBackendService.Services;

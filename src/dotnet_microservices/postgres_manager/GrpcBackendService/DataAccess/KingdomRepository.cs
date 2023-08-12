@@ -1,10 +1,8 @@
-﻿namespace GrpcBackendService.Services;
+﻿namespace GrpcBackendService.DataAccess;
 
 using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
-using Npgsql;
-using System.Data;
 
 public sealed class KingdomRepository : IDataRepository<Kingdom>
 {

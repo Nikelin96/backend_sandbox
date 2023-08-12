@@ -1,3 +1,4 @@
+using GrpcBackendService.DataAccess;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
 using GrpcBackendService.Services;

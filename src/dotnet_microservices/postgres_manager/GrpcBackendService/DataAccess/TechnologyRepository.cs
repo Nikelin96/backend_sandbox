@@ -1,6 +1,6 @@
 ﻿using GrpcBackendService.Models;
 
-namespace GrpcBackendService.Services;
+namespace GrpcBackendService.DataAccess;
 
 public sealed class TechnologyRepository : IDataRepository<Technology>
 {
