@@ -12,8 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     services.AddSingleton<DataContext>();
-    services.AddScoped<IDataRepository<KingdomTechnology>, KingdomTechnologyRepository>();
-    services.AddScoped<IDataRepository<Kingdom>, KingdomRepository>();
+    services.AddScoped<IRetrieveEntitesByIdQuery<KingdomTechnology>, KingdomTechnologyRepository>();
+    services.AddScoped<IRetrieveEntitesQuery<Kingdom>, KingdomRepository>();
+    services.AddScoped<ICreateEntityCommand<Kingdom>, KingdomRepository>();
+    services.AddScoped<ICreateEntityCommand<Technology>, TechnologyRepository>();
 
     services.AddGrpc();
 }
@@ -24,12 +26,12 @@ var app = builder.Build();
 {
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-    await context.Init();
+    context.Init();
 }
 
 // Configure the HTTP request pipeline.
 {
-    app.MapGrpcService<GreeterService>();
+    app.MapGrpcService<KingdomService>();
     app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
     app.Run();
 }

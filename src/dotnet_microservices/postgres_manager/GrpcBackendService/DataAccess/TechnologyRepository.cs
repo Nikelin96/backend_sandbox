@@ -1,31 +1,32 @@
-﻿using GrpcBackendService.Models;
+﻿using Dapper;
+using GrpcBackendService.Helpers;
+using GrpcBackendService.Models;
 
 namespace GrpcBackendService.DataAccess;
 
-public sealed class TechnologyRepository : IDataRepository<Technology>
+public sealed class TechnologyRepository : ICreateEntityCommand<Technology>
 {
-    public Task Create(Technology user)
+    private DataContext _context;
+
+    public TechnologyRepository(DataContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task Delete(int id)
+    public async Task Create(Technology technology)
     {
-        throw new NotImplementedException();
-    }
+        //INSERT INTO technology (name, description, research_time) VALUES ('chain mail', 'A technology for chain mail', 50);
+        var sql = @"INSERT INTO technology(name, description, research_time) values (@Name, @Description, @ResearchTime);";
 
-    public Task<IEnumerable<Technology>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+        using var connection = _context.CreateConnection();
 
-    public Task<Technology> GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(Technology user)
-    {
-        throw new NotImplementedException();
+        try
+        {
+            await connection.ExecuteAsync(sql, technology);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 }

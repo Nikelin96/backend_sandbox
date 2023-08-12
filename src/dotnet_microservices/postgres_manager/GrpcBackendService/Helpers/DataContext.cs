@@ -9,17 +9,24 @@ namespace GrpcBackendService.Helpers;
 
 public sealed class DataContext
 {
-    private static string Host = "localhost";
-    private static string User = "postgres";
-    private static string DBname = "aoe";
-    private static string Password = "docker";
-    private static string Port = "5432";
+    private readonly string _host;
+    private readonly string _port;
+    private readonly string _user;
+    private readonly string _dbName;
+    private readonly string _password;
 
-    protected readonly IConfiguration Configuration;
+    private readonly IConfiguration Configuration;
 
     public DataContext(IConfiguration configuration)
     {
         Configuration = configuration;
+        var credentialsSection = configuration.GetSection("Credentials");
+        _host = credentialsSection.GetSection("Host").Value;
+        _port = credentialsSection.GetSection("Port").Value;
+        _user = credentialsSection.GetSection("User").Value;
+        _dbName = credentialsSection.GetSection("DbName").Value;
+        _password = credentialsSection.GetSection("password").Value;
+
     }
 
     public IDbConnection CreateConnection()
@@ -27,31 +34,31 @@ public sealed class DataContext
         string connString =
                 String.Format(
                     "Server={0};Username={1};Database={2};Port={3};Password={4};SSLMode=Prefer",
-                    Host,
-                    User,
-                    DBname,
-                    Port,
-                    Password);
+                    _host,
+                    _user,
+                    _dbName,
+                    _port,
+                    _password);
 
 
         return new NpgsqlConnection(connString);
     }
 
 
-    public async Task Init()
+    public void Init()
     {
         // create database tables if they don't exist
         using var connection = CreateConnection();
 
-        //await _executeScript("CreateTablesScriptLocation");
-        //await _executeScript("CreateFunctionsScriptLocation");
-        //await _executeScript("InsertDataScriptLocation");
+        //_executeScript("CreateTablesScriptLocation");
+        //_executeScript("CreateFunctionsScriptLocation");
+        //_executeScript("InsertDataScriptLocation");
 
-        async Task _executeScript(string parameterName)
+        void _executeScript(string parameterName)
         {
             var filePath = Configuration.GetConnectionString(parameterName);
             var scriptSql = File.ReadAllText(filePath);
-            await connection.ExecuteAsync(scriptSql);
+            connection.Execute(scriptSql);
         }
 
         FluentMapper.Initialize(config =>

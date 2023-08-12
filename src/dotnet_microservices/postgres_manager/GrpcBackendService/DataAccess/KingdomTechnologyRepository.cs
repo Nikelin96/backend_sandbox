@@ -4,7 +4,7 @@ using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
 
-public sealed class KingdomTechnologyRepository : IDataRepository<KingdomTechnology>
+public sealed class KingdomTechnologyRepository : IRetrieveEntitesByIdQuery<KingdomTechnology>
 {
     private DataContext _context;
 
@@ -13,16 +13,7 @@ public sealed class KingdomTechnologyRepository : IDataRepository<KingdomTechnol
         _context = context;
     }
 
-    public async Task<IEnumerable<KingdomTechnology>> GetAll()
-    {
-        using var connection = _context.CreateConnection();
-
-        var sql = @"SELECT * FROM kingdom;";
-
-        return await connection.QueryAsync<KingdomTechnology>(sql);
-    }
-
-    public async Task<KingdomTechnology> GetKingdomTechnologies(int id)
+    public async Task<IEnumerable<KingdomTechnology>> RetrieveEntities(int id)
     {
         var query = @"SELECT * FROM get_kingdom_technologies(@kingdom_identifier);";
 
@@ -32,7 +23,7 @@ public sealed class KingdomTechnologyRepository : IDataRepository<KingdomTechnol
         {
             var results = await connection.QueryAsync<KingdomTechnology>(query, new { kingdom_identifier = id });
 
-            return null;
+            return results;
         }
         catch (Exception ex)
         {
@@ -40,37 +31,5 @@ public sealed class KingdomTechnologyRepository : IDataRepository<KingdomTechnol
         }
 
         return null;
-    }
-
-    public async Task<KingdomTechnology> GetById(int id)
-    {
-        throw new NotImplementedException(); ;
-    }
-
-    public async Task Create(KingdomTechnology kingdom)
-    {
-        var sql = @"INSERT INTO kingdom(name, rank, continent_id) values (@name, @rank, @continent_id);";
-
-        using var connection = _context.CreateConnection();
-
-        try
-        {
-            await connection.ExecuteAsync(sql, kingdom);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-    }
-
-    public Task Update(KingdomTechnology user)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Delete(int id)
-    {
-        throw new NotImplementedException();
     }
 }

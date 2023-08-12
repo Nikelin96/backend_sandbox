@@ -2,10 +2,10 @@ syntax = "proto3";
 
 option csharp_namespace = "GrpcBackendService";
 
-package greet;
+package kingdom;
 
 // The greeting service definition.
-service Greeter {
+service KingdomRpc {
     // Sends a greeting
   rpc GetAllKingdoms (HelloRequest) returns (HelloReply);
 

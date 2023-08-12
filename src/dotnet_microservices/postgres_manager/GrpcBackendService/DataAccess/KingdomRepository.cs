@@ -4,7 +4,7 @@ using GrpcBackendService.Models;
 
 namespace GrpcBackendService.DataAccess;
 
-public sealed class KingdomRepository : IDataRepository<Kingdom>
+public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieveEntitesQuery<Kingdom>
 {
     private DataContext _context;
 
@@ -12,7 +12,6 @@ public sealed class KingdomRepository : IDataRepository<Kingdom>
     {
         _context = context;
     }
-
 
     public async Task Create(Kingdom kingdom)
     {
@@ -30,23 +29,12 @@ public sealed class KingdomRepository : IDataRepository<Kingdom>
         }
     }
 
-    public Task Delete(int id)
+    public async Task<IEnumerable<Kingdom>> RetrieveEntities()
     {
-        throw new NotImplementedException();
-    }
+        using var connection = _context.CreateConnection();
 
-    public Task<IEnumerable<Kingdom>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+        var sql = @"SELECT * FROM kingdom;";
 
-    public Task<Kingdom> GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(Kingdom user)
-    {
-        throw new NotImplementedException();
+        return await connection.QueryAsync<Kingdom>(sql);
     }
 }

@@ -1,12 +1,9 @@
 ﻿namespace GrpcBackendService.Models;
 public sealed class Technology
 {
-    public short Id { get; set; }
+    public string Name { get; set; }
 
-    public short KingdomId { get; set; }
-    public short KingdomTransactionID { get; set; }
+    public string Description { get; set; }
 
-    public string ResearchStatus { get; set; }
-
-    public DateTime ResearchStartTime { get; set; }
+    public int ResearchTime { get; set; }
 }

@@ -2,15 +2,16 @@
 
 option csharp_namespace = "ConsoleHelper";
 
-package greet;
+package kingdom;
 
 // The greeting service definition.
-service Greeter {
+service KingdomRpc {
     // Sends a greeting
   rpc GetAllKingdoms (HelloRequest) returns (HelloReply);
 
   rpc GetKingdomWithTechologies (HelloRequest) returns (stream HelloReply);
 }
+
 
 // The request message containing the user's name.
 message HelloRequest {
@@ -20,23 +21,4 @@ message HelloRequest {
 // The response message containing the greetings.
 message HelloReply {
   string message = 1;
-}
-
-message UserRequest{
-  bool shouldGetAllUsers = 1;
-}
-
-enum Role {
-  Admin = 0;
-  User = 1;
-}
-
-
-message UserResponse {
-  int32 Id = 1;
-  string Title = 2;
-  string FirstName = 3;
-  string LastName = 4;
-  string Email = 5;
-  Role Role = 6;
 }

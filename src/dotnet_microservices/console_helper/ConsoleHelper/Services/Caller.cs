@@ -1,10 +1,5 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleHelper.Services
 {
@@ -15,7 +10,7 @@ namespace ConsoleHelper.Services
         {
             using var channel = GrpcChannel.ForAddress(address);
 
-            var client = new Greeter.GreeterClient(channel);
+            var client = new KingdomRpc.KingdomRpcClient(channel);
             var reply =  client.GetAllKingdoms(
                  new HelloRequest { Name = "Nik" });
         }
@@ -24,7 +19,7 @@ namespace ConsoleHelper.Services
         {
             using var channel = GrpcChannel.ForAddress(address);
 
-            var client = new Greeter.GreeterClient(channel);
+            var client = new KingdomRpc.KingdomRpcClient(channel);
 
             try
             {
