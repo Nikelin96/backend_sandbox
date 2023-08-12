@@ -7,6 +7,8 @@ INSERT INTO continent (name) VALUES ('Europe');
 
 -- Insert Kingdom(England) --> Continent(Europe)
 INSERT INTO kingdom (name, rank, continent_id) VALUES ('England', 1, 1);
+-- Insert Kingdom(France) --> Continent(Europe)
+INSERT INTO kingdom (name, rank, continent_id) VALUES ('France', 1, 1);
 
 
 -- Insert transaction: 'Kingdom' -> 'income'

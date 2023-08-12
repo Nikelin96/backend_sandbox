@@ -43,8 +43,8 @@ public sealed class DataContext
         // create database tables if they don't exist
         using var connection = CreateConnection();
 
-        await _executeScript("CreateTablesScriptLocation");
-        await _executeScript("CreateFunctionsScriptLocation");
+        //await _executeScript("CreateTablesScriptLocation");
+        //await _executeScript("CreateFunctionsScriptLocation");
         //await _executeScript("InsertDataScriptLocation");
 
         async Task _executeScript(string parameterName)
@@ -57,7 +57,7 @@ public sealed class DataContext
         FluentMapper.Initialize(config =>
         {
             //config.AddMap(new TechnologyMap());
-            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<Kingdom>();
+            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>();
         });
     }
 }

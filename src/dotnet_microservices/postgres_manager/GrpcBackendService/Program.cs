@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     services.AddSingleton<DataContext>();
+    services.AddScoped<IDataRepository<KingdomTechnology>, KingdomTechnologyRepository>();
     services.AddScoped<IDataRepository<Kingdom>, KingdomRepository>();
 
     services.AddGrpc();

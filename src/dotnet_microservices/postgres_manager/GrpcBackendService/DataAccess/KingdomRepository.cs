@@ -1,8 +1,8 @@
-﻿namespace GrpcBackendService.DataAccess;
-
-using Dapper;
+﻿using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
+
+namespace GrpcBackendService.DataAccess;
 
 public sealed class KingdomRepository : IDataRepository<Kingdom>
 {
@@ -13,38 +13,34 @@ public sealed class KingdomRepository : IDataRepository<Kingdom>
         _context = context;
     }
 
-    public async Task<IEnumerable<Kingdom>> GetAll()
+
+    public async Task Create(Kingdom kingdom)
     {
-        using var connection = _context.CreateConnection();
-
-        var sql = @"SELECT * FROM kingdom;";
-
-        return await connection.QueryAsync<Kingdom>(sql);
-    }
-
-    public async Task<Kingdom> GetById(int id)
-    {
-        var query = @"SELECT * FROM get_kingdom_technologies(@kingdom_identifier);";
+        var sql = @"INSERT INTO kingdom(name, rank, continent_id) values (@Name, @Rank, @ContinentId);";
 
         using var connection = _context.CreateConnection();
 
         try
         {
-            var results = await connection.QueryAsync<Kingdom>(query, new { kingdom_identifier = id });
-
-            return null;
-
+            await connection.ExecuteAsync(sql, kingdom);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
-
-        return null;
-
     }
 
-    public Task Create(Kingdom user)
+    public Task Delete(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Kingdom>> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Kingdom> GetById(int id)
     {
         throw new NotImplementedException();
     }
@@ -53,39 +49,4 @@ public sealed class KingdomRepository : IDataRepository<Kingdom>
     {
         throw new NotImplementedException();
     }
-
-    public Task Delete(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    //public async Task<Kingdom> GetByIdWithTechnologies(int id)
-    //{
-    //    var query = @"
-    //         SELECT * FROM kingdom WHERE id = @kingdomId;
-    //         SELECT * FROM kingdom_technology WHERE kingdom_id = @kingdomId;
-    //        ";
-
-    //    using var connection = _context.CreateConnection();
-
-    //    try
-    //    {
-    //        var results = await connection.QueryMultipleAsync(query, new { @kingdomId = id });
-
-    //        var kingdom = results.ReadSingle<Kingdom>();
-    //        var kingdomTechnologies = results.Read<Technology>();
-
-    //        //kingdom.Technologies.AddRange(kingdomTechnologies);
-
-    //        return kingdom;
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Console.WriteLine(ex);
-    //    }
-
-    //    return null;
-    //}
-
 }

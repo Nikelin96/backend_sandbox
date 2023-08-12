@@ -1,20 +1,9 @@
-﻿namespace GrpcBackendService.Models;
-public sealed class Kingdom
+﻿namespace GrpcBackendService.Models
 {
-    public Kingdom()
+    public sealed class Kingdom
     {
-        //Technologies = new List<Technology>();
+        public string Name { get; set; }
+        public int Rank { get; set; }
+        public int ContinentId { get; set; }
     }
-
-    public string? Name { get; set; }
-
-    public string? TechnologyName { get; set; }
-
-    public string TechnologyDescription { get; set; }
-
-    public DateTime ResearchStartTime { get; set; }
-
-    public string? ResearchStatus { get; set; }
-
-    //public List<Technology> Technologies { get; set; }
 }
