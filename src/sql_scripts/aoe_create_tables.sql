@@ -172,14 +172,3 @@ CREATE TABLE IF NOT EXISTS kingdom_unit (
     kingdom_transaction_id INTEGER NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE
 );
 COMMIT;
-CREATE OR REPLACE FUNCTION get_kingdom_technologies(kingdomidentifier INTEGER)
-RETURNS TABLE (name VARCHAR, technology_name VARCHAR, research_status research_status_type) AS $$
-BEGIN
-  RETURN QUERY 
-  SELECT k.name AS name, t.name AS technology_name, kt.research_status AS research_status
-  FROM kingdom k
-  JOIN kingdom_technology kt ON k.id = kt.kingdom_id
-  JOIN technology t ON kt.technology_id = t.id
-  WHERE k.id = kingdomidentifier;
-END;
-$$ LANGUAGE plpgsql;

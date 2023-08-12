@@ -26,13 +26,13 @@ public sealed class KingdomRepository : IDataRepository<Kingdom>
 
     public async Task<Kingdom> GetById(int id)
     {
-        var query = @"SELECT * FROM get_kingdom_technologies(@kingdomidentifier);";
+        var query = @"SELECT * FROM get_kingdom_technologies(@kingdom_identifier);";
 
         using var connection = _context.CreateConnection();
 
         try
         {
-            var results = await connection.QueryAsync<Kingdom>(query, new { @kingdomidentifier = id });
+            var results = await connection.QueryAsync<Kingdom>(query, new { kingdom_identifier = id });
 
             return null;
 
