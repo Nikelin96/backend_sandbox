@@ -16,6 +16,7 @@ public sealed class DataContext
     private readonly string _password;
 
     private readonly IConfiguration Configuration;
+    public readonly NpgsqlDataSource DataSource;
 
     public DataContext(IConfiguration configuration)
     {
@@ -27,32 +28,34 @@ public sealed class DataContext
         _dbName = credentialsSection.GetSection("DbName").Value;
         _password = credentialsSection.GetSection("password").Value;
 
+        var connectionString = GetConnectionString();
+
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+        dataSourceBuilder.MapEnum<SkillType>("skill_type");
+        this.DataSource = dataSourceBuilder.Build();
     }
 
     public IDbConnection CreateConnection()
     {
-        string connString =
-                String.Format(
-                    "Server={0};Username={1};Database={2};Port={3};Password={4};SSLMode=Prefer",
-                    _host,
-                    _user,
-                    _dbName,
-                    _port,
-                    _password);
+        var connectionString = GetConnectionString();
 
-
-        return new NpgsqlConnection(connString);
+        return new NpgsqlConnection(connectionString);
     }
 
+    private string GetConnectionString()
+    {
+        return $"Server={_host};Username={_user};Database={_dbName};Port={_port};Password={_password};SSLMode=Prefer";
+    }
 
     public void Init()
     {
+
         // create database tables if they don't exist
         using var connection = CreateConnection();
 
-        //_executeScript("CreateTablesScriptLocation");
-        //_executeScript("CreateFunctionsScriptLocation");
-        //_executeScript("InsertDataScriptLocation");
+        _executeScript("CreateTablesScriptLocation");
+        _executeScript("CreateFunctionsScriptLocation");
+        _executeScript("InsertDataScriptLocation");
 
         void _executeScript(string parameterName)
         {
@@ -63,7 +66,6 @@ public sealed class DataContext
 
         FluentMapper.Initialize(config =>
         {
-            //config.AddMap(new TechnologyMap());
             config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>();
         });
     }

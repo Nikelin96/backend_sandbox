@@ -26,6 +26,5 @@ public sealed class CreateTechnologyJourney
             Console.WriteLine(ex);
             throw;
         }
-
     }
 }
