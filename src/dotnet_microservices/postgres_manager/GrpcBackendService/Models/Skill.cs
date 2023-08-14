@@ -1,6 +1,4 @@
-﻿using NpgsqlTypes;
-
-namespace GrpcBackendService.Models;
+﻿namespace GrpcBackendService.Models;
 public sealed class Skill
 {
     public SkillType Type { get; set; }

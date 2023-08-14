@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\game.proto" />
     <None Remove="Protos\kingdom.proto" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\game.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\kingdom.proto" GrpcServices="Client" />
   </ItemGroup>
 

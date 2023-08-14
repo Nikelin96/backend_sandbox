@@ -2,7 +2,6 @@
 public interface IRetrieveEntitesByIdQuery<T>
 {
     public Task<IEnumerable<T>> RetrieveEntities(int id);
-
 }
 
 public interface IRetrieveEntitesQuery<T>

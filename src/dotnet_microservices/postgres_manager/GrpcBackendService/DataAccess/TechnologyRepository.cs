@@ -1,8 +1,9 @@
-﻿using Dapper;
+﻿namespace GrpcBackendService.DataAccess;
+
+using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
 
-namespace GrpcBackendService.DataAccess;
 
 public sealed class TechnologyRepository : ICreateEntityCommand<Technology>
 {

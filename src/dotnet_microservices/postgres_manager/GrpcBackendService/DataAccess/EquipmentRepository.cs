@@ -1,9 +1,10 @@
-﻿using Dapper;
+﻿namespace GrpcBackendService.DataAccess;
+
+using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
 
-namespace GrpcBackendService.DataAccess;
-public class EquipmentRepository : ICreateEntityCommand<Equipment>
+public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
 {
     private DataContext _context;
 

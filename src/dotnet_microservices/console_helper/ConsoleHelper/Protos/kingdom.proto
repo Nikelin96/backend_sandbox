@@ -1,24 +1,34 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
-option csharp_namespace = "ConsoleHelper";
+option csharp_namespace = "ConsoleHelper.Kingdom";
 
 package kingdom;
 
-// The greeting service definition.
+import "google/protobuf/timestamp.proto";
+
 service KingdomRpc {
-    // Sends a greeting
-  rpc GetAllKingdoms (HelloRequest) returns (HelloReply);
-
-  rpc GetKingdomWithTechologies (HelloRequest) returns (stream HelloReply);
+  rpc GetKingdom (KingdomRequest) returns (KingdomResponse);
+  rpc GetAllKingdoms (KingdomRequest) returns (stream KingdomResponse);
+  rpc GetKingdomTechologies (KingdomTechnologyRequest) returns (stream KingdomTechnologyResponse);
 }
 
+message KingdomRequest {
+  int32 continentId = 1;
+}
 
-// The request message containing the user's name.
-message HelloRequest {
+message KingdomResponse {
   string name = 1;
+  string continent = 2;
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message KingdomTechnologyRequest {
+  int32 kingdom_technology = 1;
+}
+
+message KingdomTechnologyResponse {
+  string name = 1;
+  string technology_name = 2;
+  string technology_description = 3;
+  google.protobuf.Timestamp research_start_time = 4;
+  string research_status = 5;
 }

@@ -1,9 +1,10 @@
-﻿using Dapper;
+﻿namespace GrpcBackendService.DataAccess;
+
+using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
-using Npgsql;
+//using Npgsql;
 
-namespace GrpcBackendService.DataAccess;
 public sealed class SkillRepository : ICreateEntityCommand<Skill>
 {
     private DataContext _context;

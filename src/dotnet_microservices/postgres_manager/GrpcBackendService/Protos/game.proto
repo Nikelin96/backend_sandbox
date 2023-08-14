@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService.GameRpc";
+
+package game;
+
+service GameRpc {
+  rpc CreateEntities(KingdomRequest) returns (KingdomResponse);
+}
+
+message KingdomRequest {
+  int32 continentId = 1;
+}
+
+message KingdomResponse {
+  string name = 1;
+  string continent = 2;
+}

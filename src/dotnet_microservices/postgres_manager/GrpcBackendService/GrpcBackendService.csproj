@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\kingdom.proto" GrpcServices="Server" />
+    <None Remove="Protos\game.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\game.proto" Access="Public" GrpcServices="Server" />
+    <Protobuf Include="Protos\kingdom.proto" GrpcServices="Server" Access="Public" />
   </ItemGroup>
 
   <ItemGroup>
