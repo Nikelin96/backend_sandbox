@@ -12,5 +12,5 @@ public interface IRetrieveEntitesQuery<T>
 
 public interface ICreateEntityCommand<T>
 {
-    public Task Create(T entity);
+    public Task<int> Create(T entity);
 }

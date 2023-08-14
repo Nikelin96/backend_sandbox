@@ -13,20 +13,13 @@ public sealed class TechnologyRepository : ICreateEntityCommand<Technology>
         _context = context;
     }
 
-    public async Task Create(Technology technology)
+    public async Task<int> Create(Technology technology)
     {
         //INSERT INTO technology (name, description, research_time) VALUES ('chain mail', 'A technology for chain mail', 50);
-        var sql = @"INSERT INTO technology(name, description, research_time) values (@Name, @Description, @ResearchTime);";
+        var sql = @"INSERT INTO technology(name, description, research_time) values (@Name, @Description, @ResearchTime) RETURNING id;";
 
         using var connection = _context.CreateConnection();
 
-        try
-        {
-            await connection.ExecuteAsync(sql, technology);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        return await connection.ExecuteScalarAsync<int>(sql, technology);
     }
 }

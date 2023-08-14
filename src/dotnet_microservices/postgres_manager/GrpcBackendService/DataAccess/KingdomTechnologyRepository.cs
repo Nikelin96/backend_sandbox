@@ -19,17 +19,8 @@ public sealed class KingdomTechnologyRepository : IRetrieveEntitesByIdQuery<King
 
         using var connection = _context.CreateConnection();
 
-        try
-        {
-            var results = await connection.QueryAsync<KingdomTechnology>(query, new { kingdom_identifier = id });
+        var results = await connection.QueryAsync<KingdomTechnology>(query, new { kingdom_identifier = id });
 
-            return results;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return null;
+        return results;
     }
 }

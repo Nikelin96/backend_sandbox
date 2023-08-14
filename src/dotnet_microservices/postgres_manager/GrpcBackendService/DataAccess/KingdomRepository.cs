@@ -13,20 +13,13 @@ public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieve
         _context = context;
     }
 
-    public async Task Create(Kingdom kingdom)
+    public async Task<int> Create(Kingdom kingdom)
     {
-        var sql = @"INSERT INTO kingdom(name, rank, continent_id) values (@Name, @Rank, @ContinentId);";
+        var sql = @"INSERT INTO kingdom(name, rank, continent_id) values (@Name, @Rank, @ContinentId) RETURNING id;";
 
         using var connection = _context.CreateConnection();
 
-        try
-        {
-            await connection.ExecuteAsync(sql, kingdom);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        return await connection.ExecuteScalarAsync<int>(sql, kingdom);
     }
 
     public async Task<IEnumerable<Kingdom>> RetrieveEntities()

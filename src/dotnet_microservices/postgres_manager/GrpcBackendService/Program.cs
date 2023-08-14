@@ -2,6 +2,7 @@ using GrpcBackendService.DataAccess;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
 using GrpcBackendService.Services;
+using GrpcBackendService.UnitsOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IRetrieveEntitesQuery<Kingdom>, KingdomRepository>();
     services.AddScoped<ICreateEntityCommand<Kingdom>, KingdomRepository>();
     services.AddScoped<ICreateEntityCommand<Technology>, TechnologyRepository>();
+    services.AddScoped<ICreateEntityCommand<Price>, PriceRepository>();
+    services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
 
     services.AddGrpc();
 }
