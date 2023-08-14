@@ -18,7 +18,10 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<ICreateEntityCommand<Kingdom>, KingdomRepository>();
     services.AddScoped<ICreateEntityCommand<Technology>, TechnologyRepository>();
     services.AddScoped<ICreateEntityCommand<Price>, PriceRepository>();
+    services.AddScoped<ICreateEntityCommand<Equipment>, EquipmentRepository>();
+    services.AddScoped<ICreateEntityCommand<Stat>, StatRepository>();
     services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
+    services.AddScoped<CreateEquipmentJourney, CreateEquipmentJourney>();
 
     services.AddGrpc();
 }

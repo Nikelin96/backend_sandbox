@@ -16,7 +16,7 @@ public sealed class TechnologyRepository : ICreateEntityCommand<Technology>
     public async Task<int> Create(Technology technology)
     {
         //INSERT INTO technology (name, description, research_time) VALUES ('chain mail', 'A technology for chain mail', 50);
-        var sql = @"INSERT INTO technology(name, description, research_time) values (@Name, @Description, @ResearchTime) RETURNING id;";
+        var sql = @"INSERT INTO technology(name, description, research_time) VALUES (@Name, @Description, @ResearchTime) RETURNING id;";
 
         using var connection = _context.CreateConnection();
 

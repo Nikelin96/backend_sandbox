@@ -15,7 +15,8 @@ public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieve
 
     public async Task<int> Create(Kingdom kingdom)
     {
-        var sql = @"INSERT INTO kingdom(name, rank, continent_id) values (@Name, @Rank, @ContinentId) RETURNING id;";
+        // INSERT INTO continent (name) VALUES ('Europe');
+        var sql = @"INSERT INTO kingdom(name, rank, continent_id) VALUES (@Name, @Rank, @ContinentId) RETURNING id;";
 
         using var connection = _context.CreateConnection();
 

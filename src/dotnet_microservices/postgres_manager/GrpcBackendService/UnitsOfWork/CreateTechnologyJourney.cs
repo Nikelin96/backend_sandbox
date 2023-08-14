@@ -13,9 +13,8 @@ public sealed class CreateTechnologyJourney
         _technologyCreationRepository = technologyCreationRepository;
     }
 
-    public async Task CreateTechnologyWithPrice(Technology technology, Price price)
+    public async Task CreateTechnology(Technology technology, Price price)
     {
-
         try
         {
             var technologyId = await _technologyCreationRepository.Create(technology);
@@ -29,6 +28,4 @@ public sealed class CreateTechnologyJourney
         }
 
     }
-
 }
-

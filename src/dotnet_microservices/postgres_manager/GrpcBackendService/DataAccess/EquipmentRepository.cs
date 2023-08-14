@@ -1,24 +1,24 @@
-﻿//using Dapper;
-//using GrpcBackendService.Helpers;
-//using GrpcBackendService.Models;
+﻿using Dapper;
+using GrpcBackendService.Helpers;
+using GrpcBackendService.Models;
 
-//namespace GrpcBackendService.DataAccess;
-//public class EquipmentRepository : ICreateEntityCommand<Technology>
-//{
-//    private DataContext _context;
+namespace GrpcBackendService.DataAccess;
+public class EquipmentRepository : ICreateEntityCommand<Equipment>
+{
+    private DataContext _context;
 
-//    public EquipmentRepository(DataContext context)
-//    {
-//        _context = context;
-//    }
+    public EquipmentRepository(DataContext context)
+    {
+        _context = context;
+    }
 
-//    public async Task<int> Create(Technology technology)
-//    {
-//        //INSERT INTO technology (name, description, research_time) VALUES ('chain mail', 'A technology for chain mail', 50);
-//        var sql = @"INSERT INTO technology(name, description, research_time) values (@Name, @Description, @ResearchTime);";
+    public async Task<int> Create(Equipment equipment)
+    {
+        // INSERT INTO equipment (name, stat_id) VALUES ('chain mail', 3); 
+        var sql = @"INSERT INTO equipment (name, stat_id) VALUES (@Name, @StatId) RETURNING id;";
 
-//        using var connection = _context.CreateConnection();
+        using var connection = _context.CreateConnection();
 
-//        await connection.ExecuteAsync(sql, technology);
-//    }
-//}
+        return await connection.ExecuteScalarAsync<int>(sql, equipment);
+    }
+}
