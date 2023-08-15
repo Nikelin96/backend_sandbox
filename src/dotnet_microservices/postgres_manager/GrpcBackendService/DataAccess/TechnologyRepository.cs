@@ -3,6 +3,7 @@
 using Dapper;
 using GrpcBackendService.Helpers;
 using GrpcBackendService.Models;
+using Npgsql;
 
 public sealed class TechnologyRepository : ICreateEntityCommand<Technology>, ISetTechnologyDependency<TechnologyDependency>
 {
@@ -55,8 +56,17 @@ public sealed class TechnologyRepository : ICreateEntityCommand<Technology>, ISe
             throw new InvalidDataException($"technology dependency should link to only one at a time of [unit, skill, equipment], and currently has: {newTechnologyDependency.ToString()}");
         }
 
-        // INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(1, true, 1, null);
-        var insertQuery = "INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id, equipment_id) VALUES(@technologyId, @isRequired, @unitId, @skillId, @equipmentId) RETURNING id;";
-        return await connection.ExecuteScalarAsync<int>(insertQuery, new { technologyId = newTechnologyDependency.TechnologyId, isRequired = newTechnologyDependency.IsRequired, unitId = newTechnologyDependency.UnitId, skillId = newTechnologyDependency.SkillId, equipmentId = newTechnologyDependency.EquipmentId });
+        try
+        {
+            // INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(1, true, 1, null);
+            var insertQuery = "INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id, equipment_id) VALUES(@technologyId, @isRequired, @unitId, @skillId, @equipmentId) RETURNING id;";
+            return await connection.ExecuteScalarAsync<int>(insertQuery, new { technologyId = newTechnologyDependency.TechnologyId, isRequired = newTechnologyDependency.IsRequired, unitId = newTechnologyDependency.UnitId, skillId = newTechnologyDependency.SkillId, equipmentId = newTechnologyDependency.EquipmentId });
+        }
+        catch (PostgresException ex)
+        {
+            Console.WriteLine($"Error: {ex.MessageText}. Detail: {ex.Detail}.");
+            Console.WriteLine("Error: Returning -1");
+            return -1;
+        }
     }
 }

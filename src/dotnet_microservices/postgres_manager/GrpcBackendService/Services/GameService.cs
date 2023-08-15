@@ -35,22 +35,26 @@ public sealed class GameService : GameRpc.GameRpcBase
         //var technologyPrice = new Price{Wood = 5, Food = 5, Gold = 5, Stone = 5 };
         //var technologyId = await _createTechnologyStory.CreateTechnology(technology, technologyPrice);
 
-        //var technologyDependency = new TechnologyDependency { TechnologyId = 10, UnitId = 1, SkillId = 1, EquipmentId = 1};
-        //await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency);
+        try
+        {
 
-        //var technologyDependency2 = new TechnologyDependency { TechnologyId = 1, IsRequired = false,  UnitId = 1};
-        //await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency2);
+            var technologyDependency = new TechnologyDependency { TechnologyId = 2343, UnitId = 1, SkillId = 1, EquipmentId = 1};
+            await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency);
 
+            var technologyDependency2 = new TechnologyDependency { TechnologyId = 1, IsRequired = false,  UnitId = 1};
+            await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency2);
 
-        //var technologyDependency3 = new TechnologyDependency { TechnologyId = 1, UnitId = 1, SkillId = 1, EquipmentId = 2 };
-        //await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency3);
+            var technologyDependency3 = new TechnologyDependency { TechnologyId = 1, UnitId = 1, SkillId = 1, EquipmentId = 2 };
+            await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency3);
 
+            var technologyDependency4 = new TechnologyDependency { TechnologyId = 3, IsRequired = false, SkillId = 234 };
+            await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency4);
 
-        //var technologyDependency4 = new TechnologyDependency { TechnologyId = 3,IsRequired = false, SkillId = 1 };
-        //await _technologyDependencyRepository.SetTechnologyDependency(technologyDependency4);
-
-
-
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
 
         //// create equipment journey
         //var stat = new Stat { HealthPoints = 100 };

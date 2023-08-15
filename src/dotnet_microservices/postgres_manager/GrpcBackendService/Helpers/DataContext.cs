@@ -44,7 +44,7 @@ public sealed class DataContext
 
     private string GetConnectionString()
     {
-        return $"Server={_host};Username={_user};Database={_dbName};Port={_port};Password={_password};SSLMode=Prefer";
+        return $"Server={_host};Username={_user};Database={_dbName};Port={_port};Password={_password};SSLMode=Prefer;Include Error Detail=true";
     }
 
     public void Init()
