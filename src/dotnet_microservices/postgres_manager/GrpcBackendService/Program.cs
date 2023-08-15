@@ -1,5 +1,5 @@
 using GrpcBackendService.DataAccess;
-using GrpcBackendService.Helpers;
+using GrpcBackendService.DataAccess.Repositories;
 using GrpcBackendService.Models;
 using GrpcBackendService.Services;
 using GrpcBackendService.UnitsOfWork;

@@ -5,7 +5,7 @@ using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
 
-namespace GrpcBackendService.Helpers;
+namespace GrpcBackendService.DataAccess.Repositories;
 
 public sealed class DataContext
 {
@@ -32,7 +32,7 @@ public sealed class DataContext
 
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
         dataSourceBuilder.MapEnum<SkillType>("skill_type");
-        this.DataSource = dataSourceBuilder.Build();
+        DataSource = dataSourceBuilder.Build();
     }
 
     public IDbConnection CreateConnection()

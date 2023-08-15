@@ -1,7 +1,7 @@
-﻿namespace GrpcBackendService.DataAccess;
+﻿namespace GrpcBackendService.DataAccess.Repositories;
 
 using Dapper;
-using GrpcBackendService.Helpers;
+using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 //using Npgsql;
 
@@ -21,7 +21,7 @@ public sealed class SkillRepository : ICreateEntityCommand<Skill>
 
         using var connection = _context.CreateConnection();
 
-        return await connection.ExecuteScalarAsync<int>(sql, new { Type = skill.Type.ToString().ToLower(), StatId = skill.StatId });
+        return await connection.ExecuteScalarAsync<int>(sql, new { Type = skill.Type.ToString().ToLower(), skill.StatId });
 
 
         //using var connection = _context.DataSource.OpenConnection();
