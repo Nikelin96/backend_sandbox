@@ -66,7 +66,7 @@ public sealed class DataContext
 
         FluentMapper.Initialize(config =>
         {
-            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>();
+            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>().ForEntity<TechnologyDependency>();
         });
     }
 }

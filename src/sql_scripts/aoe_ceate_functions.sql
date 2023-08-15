@@ -16,3 +16,22 @@ FROM kingdom k
 WHERE k.id = kingdom_id;
 END;
 $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION get_technology_dependencies(technology_identifier INTEGER) RETURNS TABLE (
+    technology_id INTEGER,
+    id INTEGER,
+    is_required BOOLEAN,
+    unit_id INTEGER,
+    skill_id INTEGER,
+    equipment_id INTEGER
+  ) AS $$ BEGIN RETURN QUERY
+SELECT t.id AS technology_id,
+  td.id AS id,
+  td.is_required AS is_required,
+  td.unit_id AS unit_id,
+  td.skill_id AS skill_id,
+  td.equipment_id AS equipment_id
+FROM technology AS t
+  LEFT JOIN technology_dependency AS td ON td.technology_id = t.id
+WHERE t.id = technology_identifier;
+END;
+$$ LANGUAGE plpgsql;

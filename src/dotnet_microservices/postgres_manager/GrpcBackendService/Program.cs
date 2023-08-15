@@ -21,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<ICreateEntityCommand<Equipment>, EquipmentRepository>();
     services.AddScoped<ICreateEntityCommand<Stat>, StatRepository>();
     services.AddScoped<ICreateEntityCommand<Skill>, SkillRepository>();
+    services.AddScoped<ISetTechnologyDependency<TechnologyDependency>, TechnologyRepository>();
     services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
     services.AddScoped<CreateEquipmentJourney, CreateEquipmentJourney>();
     services.AddScoped<CreateSkillJourney, CreateSkillJourney>();

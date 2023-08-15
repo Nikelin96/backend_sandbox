@@ -13,13 +13,15 @@ public sealed class CreateTechnologyJourney
         _technologyCreationRepository = technologyCreationRepository;
     }
 
-    public async Task CreateTechnology(Technology technology, Price price)
+    public async Task<int> CreateTechnology(Technology technology, Price price)
     {
         try
         {
             var technologyId = await _technologyCreationRepository.Create(technology);
             price.TechnologyId = technologyId;
             var priceId = await _priceCreationRepository.Create(price);
+
+            return priceId;
         }
         catch (Exception ex)
         {

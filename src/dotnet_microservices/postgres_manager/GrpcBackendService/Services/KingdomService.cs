@@ -1,5 +1,6 @@
 namespace GrpcBackendService.Services;
 
+using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcBackendService.DataAccess;
@@ -48,9 +49,17 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
         }
     }
 
-
     public override async Task GetKingdomTechologies(KingdomTechnologyRequest request, IServerStreamWriter<KingdomTechnologyResponse> responseStream, ServerCallContext context)
     {
+        //var config = new MapperConfiguration(cfg =>
+        //{
+        //    cfg.CreateMap<KingdomTechnology, KingdomTechnologyResponse>().ForMember(x => x.ResearchStartTime, opt => opt.MapFrom(src=> src.ResearchStartTime.ToUniversalTime().ToTimestamp()));
+        //});
+
+        //var mapper = config.CreateMapper();
+        // or
+
+
         var kingdomTechnologies = await _kigdomTechnologyRepository.RetrieveEntities(request.KingdomTechnology);
 
         foreach (var technology in kingdomTechnologies)
@@ -62,9 +71,11 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
                 Name = technology.Name,
                 TechnologyName = technology.TechnologyName,
                 TechnologyDescription = technology.TechnologyDescription,
-                ResearchStartTime = technology.ResearchStartTime.ToTimestamp(),
+                ResearchStartTime = technology.ResearchStartTime.ToUniversalTime().ToTimestamp(),
                 ResearchStatus = technology.ResearchStatus
             };
+
+            //var kingdomResponse2 = mapper.Map<KingdomTechnologyResponse>(technology);
 
             await responseStream.WriteAsync(kingdomResponse);
         }
