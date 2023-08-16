@@ -1,23 +1,21 @@
-using GrpcBackendService.DataAccess;
+using GrpcBackendService.DataAccess.Repositories;
 using Xunit.Abstractions;
 
-namespace GrpcServiceTest
+namespace GrpcServiceTest;
+public class TechnologyDependencyTests
 {
-    public class TechnologyDependencyTests
+    private TechnologyRepository _sut = new TechnologyRepository(null);
+
+    private readonly ITestOutputHelper _outputHelper;
+
+    public TechnologyDependencyTests(ITestOutputHelper outputHelper)
     {
-        private TechnologyRepository _sut = new TechnologyRepository(null);
+        _outputHelper = outputHelper;
+    }
 
-        private readonly ITestOutputHelper _outputHelper;
+    [Fact]
+    public void Test1()
+    {
 
-        public TechnologyDependencyTests(ITestOutputHelper outputHelper)
-        {
-            _outputHelper = outputHelper;
-        }
-
-        [Fact]
-        public void Test1()
-        {
-
-        }
     }
 }

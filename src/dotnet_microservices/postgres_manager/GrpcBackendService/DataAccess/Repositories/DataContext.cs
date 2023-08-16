@@ -7,49 +7,33 @@ using System.Data;
 
 namespace GrpcBackendService.DataAccess.Repositories;
 
-public sealed class DataContext
+public class DataContext
 {
-    private readonly string _host;
-    private readonly string _port;
-    private readonly string _user;
-    private readonly string _dbName;
-    private readonly string _password;
-
+    private readonly string connectionString;
     private readonly IConfiguration Configuration;
-    public readonly NpgsqlDataSource DataSource;
+    //public readonly NpgsqlDataSource DataSource;
 
     public DataContext(IConfiguration configuration)
     {
         Configuration = configuration;
         var credentialsSection = configuration.GetSection("Credentials");
-        _host = credentialsSection.GetSection("Host").Value;
-        _port = credentialsSection.GetSection("Port").Value;
-        _user = credentialsSection.GetSection("User").Value;
-        _dbName = credentialsSection.GetSection("DbName").Value;
-        _password = credentialsSection.GetSection("password").Value;
+        var host = credentialsSection.GetSection("Host").Value;
+        var port = credentialsSection.GetSection("Port").Value;
+        var user = credentialsSection.GetSection("User").Value;
+        var dbName = credentialsSection.GetSection("DbName").Value;
+        var password = credentialsSection.GetSection("Password").Value;
 
-        var connectionString = GetConnectionString();
+        connectionString = $"Server={host};Username={user};Database={dbName};Port={port};Password={password};SSLMode=Prefer;Include Error Detail=true";
 
-        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-        dataSourceBuilder.MapEnum<SkillType>("skill_type");
-        DataSource = dataSourceBuilder.Build();
+        //var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+        //dataSourceBuilder.MapEnum<SkillType>("skill_type");
+        //DataSource = dataSourceBuilder.Build();
     }
 
-    public IDbConnection CreateConnection()
-    {
-        var connectionString = GetConnectionString();
-
-        return new NpgsqlConnection(connectionString);
-    }
-
-    private string GetConnectionString()
-    {
-        return $"Server={_host};Username={_user};Database={_dbName};Port={_port};Password={_password};SSLMode=Prefer;Include Error Detail=true";
-    }
+    public IDbConnection CreateConnection() => new NpgsqlConnection(connectionString);
 
     public void Init()
     {
-
         // create database tables if they don't exist
         using var connection = CreateConnection();
 
