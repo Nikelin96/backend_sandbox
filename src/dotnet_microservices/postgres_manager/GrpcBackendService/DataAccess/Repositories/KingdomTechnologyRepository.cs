@@ -1,25 +1,26 @@
 ﻿namespace GrpcBackendService.DataAccess.Repositories;
 
-using Dapper;
 using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 
 public sealed class KingdomTechnologyRepository : IRetrieveEntitesByIdQuery<KingdomTechnology>
 {
-    private DataContext _context;
+    private readonly IConnectionCreator _context;
+    private readonly IDataAccessExecutor _executor;
 
-    public KingdomTechnologyRepository(DataContext context)
+    public KingdomTechnologyRepository(IConnectionCreator connectionCreator, IDataAccessExecutor executor)
     {
-        _context = context;
+        _context = connectionCreator;
+        _executor = executor;
     }
 
     public async Task<IEnumerable<KingdomTechnology>> RetrieveEntities(int id)
     {
         var query = @"SELECT * FROM get_kingdom_technologies(@kingdom_identifier);";
 
-        using var connection = _context.CreateConnection();
+        using var connection = _context.Create();
 
-        var results = await connection.QueryAsync<KingdomTechnology>(query, new { kingdom_identifier = id });
+        var results = await _executor.QueryAsync<KingdomTechnology>(connection, query, new { kingdom_identifier = id });
 
         return results;
     }

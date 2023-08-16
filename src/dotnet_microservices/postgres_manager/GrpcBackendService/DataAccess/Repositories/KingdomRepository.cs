@@ -1,16 +1,17 @@
 ﻿namespace GrpcBackendService.DataAccess.Repositories;
 
-using Dapper;
 using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 
 public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieveEntitesQuery<Kingdom>
 {
-    private DataContext _context;
+    private readonly IConnectionCreator _connectionCreator;
+    private readonly IDataAccessExecutor _executor;
 
-    public KingdomRepository(DataContext context)
+    public KingdomRepository(IConnectionCreator connectionCreator, IDataAccessExecutor executor)
     {
-        _context = context;
+        _connectionCreator = connectionCreator;
+        _executor = executor;
     }
 
     public async Task<int> Create(Kingdom kingdom)
@@ -18,17 +19,17 @@ public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieve
         // INSERT INTO continent (name) VALUES ('Europe');
         var sql = @"INSERT INTO kingdom(name, rank, continent_id) VALUES (@Name, @Rank, @ContinentId) RETURNING id;";
 
-        using var connection = _context.CreateConnection();
+        using var connection = _connectionCreator.Create();
 
-        return await connection.ExecuteScalarAsync<int>(sql, kingdom);
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, kingdom);
     }
 
     public async Task<IEnumerable<Kingdom>> RetrieveEntities()
     {
-        using var connection = _context.CreateConnection();
+        using var connection = _connectionCreator.Create();
 
         var sql = @"SELECT * FROM kingdom;";
 
-        return await connection.QueryAsync<Kingdom>(sql);
+        return await _executor.QueryAsync<Kingdom>(connection, sql);
     }
 }

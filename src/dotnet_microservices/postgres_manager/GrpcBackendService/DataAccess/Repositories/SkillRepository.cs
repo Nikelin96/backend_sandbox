@@ -1,17 +1,18 @@
 ﻿namespace GrpcBackendService.DataAccess.Repositories;
 
-using Dapper;
 using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 //using Npgsql;
 
 public sealed class SkillRepository : ICreateEntityCommand<Skill>
 {
-    private DataContext _context;
+    private readonly IConnectionCreator _connectionCreator;
+    private readonly IDataAccessExecutor _executor;
 
-    public SkillRepository(DataContext context)
+    public SkillRepository(IConnectionCreator connectionCreator, IDataAccessExecutor executor)
     {
-        _context = context;
+        _connectionCreator = connectionCreator;
+        _executor = executor;
     }
 
     public async Task<int> Create(Skill skill)
@@ -19,9 +20,9 @@ public sealed class SkillRepository : ICreateEntityCommand<Skill>
         //INSERT INTO skill(type, stat_id) VALUES ('attack', 1);
         var sql = @"INSERT INTO skill(type, stat_id) VALUES (@Type::skill_type, @StatId) RETURNING id;";
 
-        using var connection = _context.CreateConnection();
+        using var connection = _connectionCreator.Create();
 
-        return await connection.ExecuteScalarAsync<int>(sql, new { Type = skill.Type.ToString().ToLower(), skill.StatId });
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, new { Type = skill.Type.ToString().ToLower(), skill.StatId });
 
 
         //using var connection = _context.DataSource.OpenConnection();

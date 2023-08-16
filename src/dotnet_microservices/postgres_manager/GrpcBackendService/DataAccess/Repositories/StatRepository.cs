@@ -1,16 +1,17 @@
 ﻿namespace GrpcBackendService.DataAccess.Repositories;
 
-using Dapper;
 using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 
 public sealed class StatRepository : ICreateEntityCommand<Stat>
 {
-    private DataContext _context;
+    private readonly IConnectionCreator _connectionCreator;
+    private readonly IDataAccessExecutor _executor;
 
-    public StatRepository(DataContext context)
+    public StatRepository(IConnectionCreator connectionCreator, IDataAccessExecutor executor)
     {
-        _context = context;
+        _connectionCreator = connectionCreator;
+        _executor = executor;
     }
 
     public async Task<int> Create(Stat stat)
@@ -18,8 +19,8 @@ public sealed class StatRepository : ICreateEntityCommand<Stat>
         //INSERT INTO stat (hit_points, defense_points, damage_points, health_points) VALUES (100, 100, 100, 100);
         var sql = @"INSERT INTO stat (hit_points, defense_points, damage_points, health_points) VALUES (@HitPoints, @DefensePoints, @DamagePoints, @HealthPoints) RETURNING id;";
 
-        using var connection = _context.CreateConnection();
+        using var connection = _connectionCreator.Create();
 
-        return await connection.ExecuteScalarAsync<int>(sql, stat);
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, stat);
     }
 }

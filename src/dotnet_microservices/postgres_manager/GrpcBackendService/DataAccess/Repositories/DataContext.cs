@@ -1,13 +1,13 @@
-﻿using Dapper;
+﻿namespace GrpcBackendService.DataAccess.Repositories;
+
+using Dapper;
 using Dapper.FluentMap;
 using GrpcBackendService.Models;
 using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
 
-namespace GrpcBackendService.DataAccess.Repositories;
-
-public class DataContext
+public sealed class DataContext : IConnectionCreator
 {
     private readonly string connectionString;
     private readonly IConfiguration Configuration;
@@ -30,12 +30,12 @@ public class DataContext
         //DataSource = dataSourceBuilder.Build();
     }
 
-    public IDbConnection CreateConnection() => new NpgsqlConnection(connectionString);
+    public IDbConnection Create() => new NpgsqlConnection(connectionString);
 
     public void Init()
     {
         // create database tables if they don't exist
-        using var connection = CreateConnection();
+        using var connection = Create();
 
         _executeScript("CreateTablesScriptLocation");
         _executeScript("CreateFunctionsScriptLocation");

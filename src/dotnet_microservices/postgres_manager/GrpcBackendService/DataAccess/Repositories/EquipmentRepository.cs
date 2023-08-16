@@ -1,16 +1,17 @@
 ﻿namespace GrpcBackendService.DataAccess.Repositories;
 
-using Dapper;
 using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 
 public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
 {
-    private DataContext _context;
+    private readonly IConnectionCreator _context;
+    private readonly IDataAccessExecutor _executor;
 
-    public EquipmentRepository(DataContext context)
+    public EquipmentRepository(IConnectionCreator connectionCreator, IDataAccessExecutor repository)
     {
-        _context = context;
+        _context = connectionCreator;
+        _executor = repository;
     }
 
     public async Task<int> Create(Equipment equipment)
@@ -18,8 +19,8 @@ public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
         // INSERT INTO equipment (name, stat_id) VALUES ('chain mail', 3); 
         var sql = @"INSERT INTO equipment (name, stat_id) VALUES (@Name, @StatId) RETURNING id;";
 
-        using var connection = _context.CreateConnection();
+        using var connection = _context.Create();
 
-        return await connection.ExecuteScalarAsync<int>(sql, equipment);
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, equipment);
     }
 }

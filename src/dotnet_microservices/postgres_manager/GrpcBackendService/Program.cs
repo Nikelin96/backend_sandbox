@@ -12,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 {
     var services = builder.Services;
+
     services.AddSingleton<DataContext>();
+    services.AddSingleton<IConnectionCreator, DataContext>();
+    services.AddSingleton<IDataAccessExecutor, DapperExecutor>();
     services.AddScoped<IRetrieveEntitesByIdQuery<KingdomTechnology>, KingdomTechnologyRepository>();
     services.AddScoped<IRetrieveEntitesQuery<Kingdom>, KingdomRepository>();
     services.AddScoped<ICreateEntityCommand<Kingdom>, KingdomRepository>();
