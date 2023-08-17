@@ -1,7 +1,7 @@
 ﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories;
-public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieveEntitesQuery<Kingdom>
+public sealed class KingdomRepository
 {
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;

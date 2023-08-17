@@ -1,7 +1,7 @@
 ﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories;
-public sealed class PriceRepository : ICreateEntityCommand<Price>
+public sealed class PriceRepository
 {
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;

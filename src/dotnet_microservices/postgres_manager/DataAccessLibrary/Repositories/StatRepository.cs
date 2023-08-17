@@ -1,7 +1,7 @@
 ﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories;
-public sealed class StatRepository : ICreateEntityCommand<Stat>
+public sealed class StatRepository
 {
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;

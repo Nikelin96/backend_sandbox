@@ -1,7 +1,7 @@
 ﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories;
-public sealed class KingdomTransactionRepository : ICreateEntityCommand<KingdomTransaction>, IRetrieveEntitesByIdQuery<KingdomTransaction>
+public sealed class KingdomTransactionRepository
 {
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;

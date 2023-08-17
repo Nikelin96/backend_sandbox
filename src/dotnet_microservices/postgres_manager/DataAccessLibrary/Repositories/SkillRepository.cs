@@ -3,7 +3,7 @@
 namespace DataAccessLibrary.Repositories;
 //using Npgsql;
 
-public sealed class SkillRepository : ICreateEntityCommand<Skill>
+public sealed class SkillRepository
 {
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;

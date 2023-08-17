@@ -1,26 +1,26 @@
-﻿
-using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 
 namespace GrpcBackendService.UnitsOfWork;
 public sealed class CreateTechnologyJourney
 {
-    private readonly ICreateEntityCommand<Price> _priceCreationRepository;
-    private readonly ICreateEntityCommand<Technology> _technologyCreationRepository;
 
-    public CreateTechnologyJourney(ICreateEntityCommand<Price> priceCreationRepository, ICreateEntityCommand<Technology> technologyCreationRepository)
+    private readonly PriceRepository _priceRepository;
+    private readonly TechnologyRepository _technologyRepository;
+
+    public CreateTechnologyJourney(PriceRepository priceRepository, TechnologyRepository technologyRepository)
     {
-        _priceCreationRepository = priceCreationRepository;
-        _technologyCreationRepository = technologyCreationRepository;
+        _priceRepository = priceRepository;
+        _technologyRepository = technologyRepository;
     }
 
     public async Task<int> CreateTechnology(Technology technology, Price price)
     {
         try
         {
-            var technologyId = await _technologyCreationRepository.Create(technology);
+            var technologyId = await _technologyRepository.Create(technology);
             price.TechnologyId = technologyId;
-            var priceId = await _priceCreationRepository.Create(price);
+            var priceId = await _priceRepository.Create(price);
 
             return priceId;
         }

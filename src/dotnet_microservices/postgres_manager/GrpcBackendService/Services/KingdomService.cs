@@ -1,6 +1,7 @@
 
 using DataAccessLibrary;
 using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcService.KingdomRpc;
@@ -9,26 +10,21 @@ namespace GrpcBackendService.Services;
 public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 {
     private readonly ILogger<KingdomService> _logger;
-    private readonly IRetrieveEntitesByIdQuery<KingdomTechnology> _kigdomTechnologyRepository;
-    private readonly ICreateEntityCommand<KingdomTechnology> _test;
-    private readonly IRetrieveEntitesQuery<Kingdom> _kingdomGetRepository;
+    private readonly KingdomTechnologyRepository _kigdomTechnologyRepository;
+    private readonly KingdomRepository _kingdomRepository;
 
-    private readonly IRetrieveEntitesByIdQuery<KingdomTransaction> _kigdomTransactionRepository;
-    private readonly ICreateEntityCommand<KingdomTransaction> _kingdomTransactionCreateRepository;
+    private readonly KingdomTransactionRepository _kigdomTransactionRepository;
 
-    public KingdomService(ILogger<KingdomService> logger,
-        IRetrieveEntitesByIdQuery<KingdomTechnology> kigdomTechnologyRepository,
-        IRetrieveEntitesQuery<Kingdom> kingdomGetRepository,
-        IRetrieveEntitesByIdQuery<KingdomTransaction> kigdomTransactionRepository,
-        ICreateEntityCommand<KingdomTransaction> kingdomTransactionGetRepository,
-        ICreateEntityCommand<KingdomTechnology> test)
+    public KingdomService(
+        ILogger<KingdomService> logger,
+        KingdomTechnologyRepository kigdomTechnologyRepository,
+        KingdomRepository kingdomRepository,
+        KingdomTransactionRepository kigdomTransactionRepository)
     {
         _logger = logger;
         _kigdomTechnologyRepository = kigdomTechnologyRepository;
-        _kingdomGetRepository = kingdomGetRepository;
+        _kingdomRepository = kingdomRepository;
         _kigdomTransactionRepository = kigdomTransactionRepository;
-        _kingdomTransactionCreateRepository = kingdomTransactionGetRepository;
-        _test = test;
     }
 
     public override async Task<KingdomResponse> GetKingdom(KingdomRequest request, ServerCallContext context)
@@ -43,11 +39,11 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
 
         var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = "in progress", TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
-        var s =await _test.Create(technology);
+        var s =await _kigdomTechnologyRepository.Create(technology);
 
 
 
-        var kingdoms = await _kingdomGetRepository.RetrieveEntities();
+        var kingdoms = await _kingdomRepository.RetrieveEntities();
 
         var kingdomResponse = new KingdomResponse
         {
@@ -59,7 +55,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
     public override async Task GetAllKingdoms(KingdomRequest request, IServerStreamWriter<KingdomResponse> responseStream, ServerCallContext context)
     {
-        var kingdoms = await _kingdomGetRepository.RetrieveEntities();
+        var kingdoms = await _kingdomRepository.RetrieveEntities();
 
         foreach (var kingdom in kingdoms)
         {

@@ -1,30 +1,29 @@
-﻿
-using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 
 namespace GrpcBackendService.UnitsOfWork;
 public sealed class CreateEquipmentJourney
 {
-    private readonly ICreateEntityCommand<Stat> _statCreationRepository;
-    private readonly ICreateEntityCommand<Price> _priceCreationRepository;
-    private readonly ICreateEntityCommand<Equipment> _equipmentCreationRepository;
+    private readonly StatRepository _statRepository;
+    private readonly PriceRepository _priceRepository;
+    private readonly EquipmentRepository _equipmentRepository;
 
-    public CreateEquipmentJourney(ICreateEntityCommand<Stat> statCreationRepository, ICreateEntityCommand<Price> priceCreationRepository, ICreateEntityCommand<Equipment> equipmentCreationRepository)
+    public CreateEquipmentJourney(StatRepository statRepository, PriceRepository priceRepository, EquipmentRepository equipmentRepository)
     {
-        _statCreationRepository = statCreationRepository;
-        _priceCreationRepository = priceCreationRepository;
-        _equipmentCreationRepository = equipmentCreationRepository;
+        _statRepository = statRepository;
+        _priceRepository = priceRepository;
+        _equipmentRepository = equipmentRepository;
     }
 
     public async Task CreateEquipment(Stat stat, Equipment equipment, Price price)
     {
         try
         {
-            var statId = await _statCreationRepository.Create(stat);
+            var statId = await _statRepository.Create(stat);
             equipment.StatId = statId;
-            var equipmentId = await _equipmentCreationRepository.Create(equipment);
+            var equipmentId = await _equipmentRepository.Create(equipment);
             price.EquipmentId = equipmentId;
-            var priceId  = await _priceCreationRepository.Create(price);
+            var priceId  = await _priceRepository.Create(price);
         }
         catch (Exception ex)
         {

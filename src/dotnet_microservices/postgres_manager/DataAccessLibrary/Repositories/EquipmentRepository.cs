@@ -2,7 +2,7 @@
 
 namespace DataAccessLibrary.Repositories
 {
-    public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
+    public sealed class EquipmentRepository
     {
         private readonly IConnectionCreator _context;
         private readonly IDataAccessExecutor _executor;

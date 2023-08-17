@@ -2,7 +2,7 @@
 using Npgsql;
 
 namespace DataAccessLibrary.Repositories;
-public sealed class TechnologyRepository : ICreateEntityCommand<Technology>, ISetTechnologyDependency<TechnologyDependency>
+public sealed class TechnologyRepository
 {
     private IConnectionCreator _connectionCreator;
     private IDataAccessExecutor _executor;

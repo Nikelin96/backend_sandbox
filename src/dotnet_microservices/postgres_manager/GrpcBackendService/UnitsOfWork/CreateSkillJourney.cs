@@ -1,26 +1,25 @@
-﻿
-using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 
 namespace GrpcBackendService.UnitsOfWork;
 public sealed class CreateSkillJourney
 {
-    private readonly ICreateEntityCommand<Stat> _statCreationRepository;
-    private readonly ICreateEntityCommand<Skill> _skillCreationRepository;
+    private readonly StatRepository _statRepository;
+        private readonly SkillRepository _skillRepository;
 
-    public CreateSkillJourney(ICreateEntityCommand<Stat> statCreationRepository, ICreateEntityCommand<Skill> skillCreationRepository)
+    public CreateSkillJourney(StatRepository statRepository,SkillRepository skillRepository)
     {
-        _statCreationRepository = statCreationRepository;
-        _skillCreationRepository = skillCreationRepository;
+        _statRepository = statRepository;
+        _skillRepository = skillRepository;
     }
 
     public async Task CreateSkill(Stat stat, Skill skill)
     {
         try
         {
-            var statId = await _statCreationRepository.Create(stat);
+            var statId = await _statRepository.Create(stat);
             skill.StatId = statId;
-            var skillId = await _skillCreationRepository.Create(skill);
+            var skillId = await _skillRepository.Create(skill);
         }
         catch (Exception ex)
         {
