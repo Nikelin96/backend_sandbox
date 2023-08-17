@@ -1,6 +1,5 @@
 namespace GrpcBackendService.Services;
 
-using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcBackendService.DataAccess;

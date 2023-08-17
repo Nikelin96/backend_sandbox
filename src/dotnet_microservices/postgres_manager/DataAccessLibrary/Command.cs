@@ -1,7 +1,6 @@
-﻿using Dapper;
-using System.Data;
+﻿namespace GrpcBackendService.DataAccess;
 
-namespace GrpcBackendService.DataAccess;
+using System.Data;
 public interface IRetrieveEntitesByIdQuery<T>
 {
     public Task<IEnumerable<T>> RetrieveEntities(int id);
@@ -28,18 +27,6 @@ public interface IDataAccessExecutor
     public Task<IEnumerable<T>> QueryAsync<T>(IDbConnection connection, string sql, object? entity = null);
 }
 
-public class DapperExecutor : IDataAccessExecutor
-{
-    public async Task<T> ExecuteScalarAsync<T>(IDbConnection connection, string sql, object entity)
-    {
-        return await connection.ExecuteScalarAsync<T>(sql, entity);
-    }
-
-    public async Task<IEnumerable<T>> QueryAsync<T>(IDbConnection connection, string sql, object? entity = null)
-    {
-        return await connection.QueryAsync<T>(sql, entity);
-    }
-}
 
 public interface IConnectionCreator
 {

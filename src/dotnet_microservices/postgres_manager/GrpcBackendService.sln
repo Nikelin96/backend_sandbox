@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcBackendService", "GrpcBackendService\GrpcBackendService.csproj", "{D8FE3A6B-2FEF-4E41-8905-2471639A65CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServiceTest", "GrpcServiceTest\GrpcServiceTest.csproj", "{E0B8E4EE-531D-47DB-B54E-40AD6D5E502C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcServiceTest", "GrpcServiceTest\GrpcServiceTest.csproj", "{E0B8E4EE-531D-47DB-B54E-40AD6D5E502C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{7E4FA3BC-9990-48BA-A061-7AFF358DBBFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{E0B8E4EE-531D-47DB-B54E-40AD6D5E502C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0B8E4EE-531D-47DB-B54E-40AD6D5E502C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0B8E4EE-531D-47DB-B54E-40AD6D5E502C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E4FA3BC-9990-48BA-A061-7AFF358DBBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E4FA3BC-9990-48BA-A061-7AFF358DBBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E4FA3BC-9990-48BA-A061-7AFF358DBBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E4FA3BC-9990-48BA-A061-7AFF358DBBFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA4BD33B-F3CE-4209-9AF5-AE748E632A30}
 	EndGlobalSection
 EndGlobal

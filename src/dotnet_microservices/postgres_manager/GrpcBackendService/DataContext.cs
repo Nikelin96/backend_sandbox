@@ -6,6 +6,7 @@ using GrpcBackendService.Models;
 using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
+using System.Reflection;
 
 public sealed class DataContext : IConnectionCreator
 {
@@ -52,6 +53,8 @@ public sealed class DataContext : IConnectionCreator
         {
             //config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>().ForEntity<TechnologyDependency>().ForEntity<KingdomTransaction>();
             config.AddConvention<PropertyTransformConvention>().ForEntitiesInCurrentAssembly("GrpcBackendService.Models");
+
+            //config.AddConvention<PropertyTransformConvention>().ForEntitiesInAssembly(Assembly.Load("DataAccessLibrary"));
         });
     }
 }
