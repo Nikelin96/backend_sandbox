@@ -1,5 +1,5 @@
-﻿using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
+﻿using DataAccessLibrary;
+using DataAccessLibrary.Models;
 
 namespace GrpcBackendService.UnitsOfWork;
 public sealed class CreateUnitJourney

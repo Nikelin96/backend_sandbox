@@ -1,8 +1,6 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
+﻿using DataAccessLibrary.Models;
 
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
-
+namespace DataAccessLibrary.Repositories;
 public sealed class StatRepository : ICreateEntityCommand<Stat>
 {
     private readonly IConnectionCreator _connectionCreator;

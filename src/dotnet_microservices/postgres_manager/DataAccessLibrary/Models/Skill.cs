@@ -1,4 +1,4 @@
-﻿namespace GrpcBackendService.Models;
+﻿namespace DataAccessLibrary.Models;
 public sealed class Skill
 {
     public SkillType Type { get; set; }

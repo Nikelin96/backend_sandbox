@@ -1,8 +1,8 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
+﻿
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
 
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
-
+namespace DataAccessLibrary.Repositories;
 public sealed class KingdomTechnologyRepository : IRetrieveEntitesByIdQuery<KingdomTechnology>
 {
     private readonly IConnectionCreator _context;

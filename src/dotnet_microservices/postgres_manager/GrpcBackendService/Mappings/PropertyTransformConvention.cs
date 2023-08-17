@@ -1,8 +1,8 @@
-﻿namespace GrpcBackendService.Models.Mappings;
-
+﻿
 using Dapper.FluentMap.Conventions;
 using System.Text.RegularExpressions;
 
+namespace GrpcBackendService.Models.Mappings;
 public sealed class PropertyTransformConvention : Convention
 {
     public PropertyTransformConvention()

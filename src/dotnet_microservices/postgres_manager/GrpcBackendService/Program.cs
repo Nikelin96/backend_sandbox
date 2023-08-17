@@ -1,4 +1,6 @@
-using GrpcBackendService.DataAccess;
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 using GrpcBackendService.DataAccess.Repositories;
 using GrpcBackendService.Models;
 using GrpcBackendService.Services;

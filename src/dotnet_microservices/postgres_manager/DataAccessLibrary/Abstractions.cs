@@ -1,6 +1,7 @@
-﻿namespace GrpcBackendService.DataAccess;
-
+﻿
 using System.Data;
+
+namespace DataAccessLibrary;
 public interface IRetrieveEntitesByIdQuery<T>
 {
     public Task<IEnumerable<T>> RetrieveEntities(int id);
@@ -26,7 +27,6 @@ public interface IDataAccessExecutor
     public Task<T> ExecuteScalarAsync<T>(IDbConnection connection, string sql, object entity);
     public Task<IEnumerable<T>> QueryAsync<T>(IDbConnection connection, string sql, object? entity = null);
 }
-
 
 public interface IConnectionCreator
 {

@@ -1,4 +1,4 @@
-﻿namespace GrpcBackendService.Models;
+﻿namespace DataAccessLibrary.Models;
 public class KingdomTransaction
 {
     public int KingdomId { get; set; }

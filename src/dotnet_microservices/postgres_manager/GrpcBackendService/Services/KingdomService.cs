@@ -1,11 +1,12 @@
-namespace GrpcBackendService.Services;
 
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using GrpcBackendService.DataAccess;
 using GrpcBackendService.Models;
 using GrpcService.KingdomRpc;
 
+namespace GrpcBackendService.Services;
 public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 {
     private readonly ILogger<KingdomService> _logger;

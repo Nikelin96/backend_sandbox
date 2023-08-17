@@ -1,26 +1,27 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
+﻿using DataAccessLibrary;
+using DataAccessLibrary.Models;
 
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
-
-public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
+namespace DataAccessLibrary.Repositories
 {
-    private readonly IConnectionCreator _context;
-    private readonly IDataAccessExecutor _executor;
-
-    public EquipmentRepository(IConnectionCreator connectionCreator, IDataAccessExecutor repository)
+    public sealed class EquipmentRepository : ICreateEntityCommand<Equipment>
     {
-        _context = connectionCreator;
-        _executor = repository;
-    }
+        private readonly IConnectionCreator _context;
+        private readonly IDataAccessExecutor _executor;
 
-    public async Task<int> Create(Equipment equipment)
-    {
-        // INSERT INTO equipment (name, stat_id) VALUES ('chain mail', 3); 
-        var sql = @"INSERT INTO equipment (name, stat_id) VALUES (@Name, @StatId) RETURNING id;";
+        public EquipmentRepository(IConnectionCreator connectionCreator, IDataAccessExecutor repository)
+        {
+            _context = connectionCreator;
+            _executor = repository;
+        }
 
-        using var connection = _context.Create();
+        public async Task<int> Create(Equipment equipment)
+        {
+            // INSERT INTO equipment (name, stat_id) VALUES ('chain mail', 3); 
+            var sql = @"INSERT INTO equipment (name, stat_id) VALUES (@Name, @StatId) RETURNING id;";
 
-        return await _executor.ExecuteScalarAsync<int>(connection, sql, equipment);
+            using var connection = _context.Create();
+
+            return await _executor.ExecuteScalarAsync<int>(connection, sql, equipment);
+        }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Dapper;
+﻿
+using Dapper;
 
-namespace GrpcBackendService.Models;
+namespace DataAccessLibrary.Models;
 public sealed class TechnologyDependency
 {
     public int Id { get; set; }

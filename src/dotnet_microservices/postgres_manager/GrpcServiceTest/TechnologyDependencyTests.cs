@@ -1,13 +1,12 @@
-namespace GrpcServiceTest;
 
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.DataAccess.Repositories;
-using GrpcBackendService.Models;
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
+using DataAccessLibrary.Repositories;
 using NSubstitute;
 using System.Data;
 using Xunit.Abstractions;
 
-
+namespace GrpcServiceTest;
 public class TechnologyDependencyTests
 {
     private readonly TechnologyRepository _sut;

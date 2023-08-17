@@ -1,9 +1,7 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
-
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
+﻿using DataAccessLibrary.Models;
 using Npgsql;
 
+namespace DataAccessLibrary.Repositories;
 public sealed class TechnologyRepository : ICreateEntityCommand<Technology>, ISetTechnologyDependency<TechnologyDependency>
 {
     private IConnectionCreator _connectionCreator;

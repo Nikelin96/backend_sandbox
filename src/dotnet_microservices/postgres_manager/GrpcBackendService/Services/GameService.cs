@@ -1,11 +1,11 @@
-﻿namespace GrpcBackendService.Services;
-
+﻿
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
 using Grpc.Core;
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
 using GrpcBackendService.UnitsOfWork;
 using GrpcService.GameRpc;
 
+namespace GrpcBackendService.Services;
 public sealed class GameService : GameRpc.GameRpcBase
 {
     private readonly ILogger<KingdomService> _logger;

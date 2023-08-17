@@ -1,13 +1,14 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
-
+﻿
 using Dapper;
 using Dapper.FluentMap;
+using DataAccessLibrary;
 using GrpcBackendService.Models;
 using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
 using System.Reflection;
 
+namespace GrpcBackendService.DataAccess.Repositories;
 public sealed class DataContext : IConnectionCreator
 {
     private readonly string connectionString;

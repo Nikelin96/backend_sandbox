@@ -1,4 +1,5 @@
-﻿namespace GrpcBackendService.Models;
+﻿namespace DataAccessLibrary.Models;
+
 public sealed class KingdomTechnology
 {
     public string? Name { get; set; }

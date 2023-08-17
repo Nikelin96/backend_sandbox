@@ -1,8 +1,8 @@
-﻿namespace GrpcBackendService.DataAccess.Repositories;
+﻿
+using DataAccessLibrary;
+using DataAccessLibrary.Models;
 
-using GrpcBackendService.DataAccess;
-using GrpcBackendService.Models;
-
+namespace DataAccessLibrary.Repositories;
 public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieveEntitesQuery<Kingdom>
 {
     private readonly IConnectionCreator _connectionCreator;
