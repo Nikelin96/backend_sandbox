@@ -44,7 +44,36 @@ public sealed class KingdomTechnologyRepository
         var technologyWithPrice = technologiesWithPrice.First();
 
         // check that kingdom_transaction exists, and its value equals to technology price
-        var queryKingdomTransaction =  @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId AND technology_id = @TechnologyId;"; // todo add conditions AND unit_id = @UnitId AND skill_id = @SkillId AND equipment_id = @EquipmentId;;
+        var queryKingdomTransaction =  @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId AND technology_id = @TechnologyId";
+
+        if (kingdomTecnology.UnitId.HasValue)
+        {
+            queryKingdomTransaction += " AND unit_id = @UnitId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND unit_id IS NULL";
+        }
+        if (kingdomTecnology.SkillId.HasValue)
+        {
+            queryKingdomTransaction += " AND skill_id = @SkillId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND skill_id IS NULL";
+        }
+        if (kingdomTecnology.EquipmentId.HasValue)
+        {
+            queryKingdomTransaction += " AND equipment_id = @EquipmentId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND equipment_id IS NULL";
+        }
+
+        queryKingdomTransaction += ";";
+
+        // todo add conditions AND unit_id = @UnitId AND skill_id = @SkillId AND equipment_id = @EquipmentId;;
 
         var kingdomTransactions = await _executor.QueryAsync<KingdomTransaction>(connection, queryKingdomTransaction, kingdomTecnology);
 
@@ -58,8 +87,18 @@ public sealed class KingdomTechnologyRepository
                 // we are better
 
                 // INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 1, 2, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
-                var sql = @"INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES (@KingdomId, @TechnologyId, @KingdomTransactionId, @ResearchStatus, @ResearchStartTime) RETURNING id;";
-                var s = await _executor.ExecuteScalarAsync<int>(connection, sql, kingdomTecnology);
+                var sql = @"INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) 
+                    VALUES (@KingdomId, @TechnologyId, @KingdomTransactionId, @ResearchStatus::research_status_type, TO_TIMESTAMP(@ResearchStartTime::text, 'YYYY-MM-DD HH24:MI')) RETURNING id;"; //`
+
+                var s = await _executor.ExecuteScalarAsync<int>(connection, sql,
+                    new
+                    {
+                        KingdomId = kingdomTecnology.KingdomId,
+                        TechnologyId = kingdomTecnology.TechnologyId,
+                        KingdomTransactionId = kingdomTecnology.KingdomTransactionId,
+                        ResearchStatus = kingdomTecnology.ResearchStatus.ToPostgreEnum(),
+                        ResearchStartTime = kingdomTecnology.ResearchStartTime.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
+                    });
             }
         }
 

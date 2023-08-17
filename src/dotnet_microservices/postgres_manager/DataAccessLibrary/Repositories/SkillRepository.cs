@@ -21,7 +21,7 @@ public sealed class SkillRepository
 
         using var connection = _connectionCreator.Create();
 
-        return await _executor.ExecuteScalarAsync<int>(connection, sql, new { Type = skill.Type.ToString().ToLower(), skill.StatId });
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, new { Type = skill.Type.ToPostgreEnum(), skill.StatId });
 
 
         //using var connection = _context.DataSource.OpenConnection();

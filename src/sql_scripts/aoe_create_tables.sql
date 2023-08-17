@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS kingdom_technology (
     technology_id INTEGER NOT NULL REFERENCES technology(id) ON DELETE CASCADE,
     kingdom_transaction_id INTEGER NOT NULL REFERENCES kingdom_transaction(id) ON DELETE CASCADE,
     research_status research_status_type,
-    research_start_time TIMESTAMP
+    research_start_time TIMESTAMPTZ
 );
 CREATE TABLE IF NOT EXISTS kingdom_unit (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

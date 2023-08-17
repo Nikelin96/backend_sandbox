@@ -38,7 +38,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
 
 
-        var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = "in progress", TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
+        var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = ResearchStatusType.InProgress, TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
         var s =await _kigdomTechnologyRepository.Create(technology);
 
 
@@ -93,7 +93,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
                 TechnologyName = technology.TechnologyName,
                 TechnologyDescription = technology.TechnologyDescription,
                 ResearchStartTime = technology.ResearchStartTime.ToUniversalTime().ToTimestamp(),
-                ResearchStatus = technology.ResearchStatus
+                ResearchStatus = technology.ResearchStatus.ToString()
             };
 
             //var kingdomResponse2 = mapper.Map<KingdomTechnologyResponse>(technology);

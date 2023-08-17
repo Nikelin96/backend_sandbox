@@ -19,7 +19,7 @@ public sealed class KingdomTransactionRepository
 
         using var connection = _connectionCreator.Create();
 
-        return await _executor.ExecuteScalarAsync<int>(connection, sql, new { KingdomId = kingdom.KingdomId, Type = kingdom.Type.ToString().ToLower(), Wood = kingdom.Wood, Food = kingdom.Food, Gold = kingdom.Gold, Stone = kingdom.Stone });
+        return await _executor.ExecuteScalarAsync<int>(connection, sql, new { KingdomId = kingdom.KingdomId, Type = kingdom.Type.ToPostgreEnum(), Wood = kingdom.Wood, Food = kingdom.Food, Gold = kingdom.Gold, Stone = kingdom.Stone });
     }
 
     public async Task<IEnumerable<KingdomTransaction>> RetrieveEntities(int id)
