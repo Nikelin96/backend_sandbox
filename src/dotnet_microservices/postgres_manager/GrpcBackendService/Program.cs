@@ -31,6 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
     services.AddScoped<CreateEquipmentJourney, CreateEquipmentJourney>();
     services.AddScoped<CreateSkillJourney, CreateSkillJourney>();
+    services.AddScoped<CreateUnitJourney, CreateUnitJourney>();
 
     services.AddGrpc();
 }
