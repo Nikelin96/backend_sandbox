@@ -31,10 +31,10 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
     public override async Task<KingdomResponse> GetKingdom(KingdomRequest request, ServerCallContext context)
     {
-        //var results = await _kigdomTransactionRepository.RetrieveEntities(1);
-        //var transaction = new KingdomTransaction{ KingdomId = 1, Type = TransactionType.Income, Food = 13, Wood = 13, Gold = 13, Stone = 13 };
+        var results = await _kigdomTransactionRepository.RetrieveEntities(1);
+        var transaction = new KingdomTransaction{ KingdomId = 1, Type = TransactionType.Income, Food = 13, Wood = 13, Gold = 13, Stone = 13 };
 
-        //var s = await _kingdomTransactionCreateRepository.Create(transaction);
+        var s = await _kingdomTransactionCreateRepository.Create(transaction);
 
 
         var kingdoms = await _kingdomGetRepository.RetrieveEntities();

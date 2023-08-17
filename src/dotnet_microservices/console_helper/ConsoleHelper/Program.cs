@@ -11,7 +11,7 @@ var address = configuraion.GetConnectionString("TargetServer");
 using var channel = GrpcChannel.ForAddress(address);
 
 
-new Caller().CreateOne(address);
+new Caller().GetOne(address);
 
 //Console.WriteLine("Greeting: " + reply.Message);B
 Console.WriteLine("Press any key to exit...");

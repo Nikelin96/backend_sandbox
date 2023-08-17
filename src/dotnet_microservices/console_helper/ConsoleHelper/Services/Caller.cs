@@ -13,7 +13,7 @@ namespace ConsoleHelper.Services
             using var channel = GrpcChannel.ForAddress(address);
 
             var client = new KingdomRpc.KingdomRpcClient(channel);
-            var reply =  client.GetAllKingdoms(
+            var reply =  client.GetKingdom(
                  new ConsoleHelper.Kingdom.KingdomRequest { ContinentId = 1 });
         }
 
