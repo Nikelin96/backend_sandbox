@@ -50,7 +50,7 @@ public sealed class DataContext : IConnectionCreator
 
         FluentMapper.Initialize(config =>
         {
-            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>().ForEntity<TechnologyDependency>();
+            config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>().ForEntity<TechnologyDependency>().ForEntity<KingdomTransaction>();
         });
     }
 }

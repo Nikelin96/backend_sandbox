@@ -13,15 +13,30 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
     private readonly IRetrieveEntitesByIdQuery<KingdomTechnology> _kigdomTechnologyRepository;
     private readonly IRetrieveEntitesQuery<Kingdom> _kingdomGetRepository;
 
-    public KingdomService(ILogger<KingdomService> logger, IRetrieveEntitesByIdQuery<KingdomTechnology> kigdomTechnologyRepository, IRetrieveEntitesQuery<Kingdom> kingdomGetRepository)
+    private readonly IRetrieveEntitesByIdQuery<KingdomTransaction> _kigdomTransactionRepository;
+    private readonly ICreateEntityCommand<KingdomTransaction> _kingdomTransactionCreateRepository;
+
+    public KingdomService(ILogger<KingdomService> logger,
+        IRetrieveEntitesByIdQuery<KingdomTechnology> kigdomTechnologyRepository,
+        IRetrieveEntitesQuery<Kingdom> kingdomGetRepository,
+        IRetrieveEntitesByIdQuery<KingdomTransaction> kigdomTransactionRepository,
+        ICreateEntityCommand<KingdomTransaction> kingdomTransactionGetRepository)
     {
         _logger = logger;
         _kigdomTechnologyRepository = kigdomTechnologyRepository;
         _kingdomGetRepository = kingdomGetRepository;
+        _kigdomTransactionRepository = kigdomTransactionRepository;
+        _kingdomTransactionCreateRepository = kingdomTransactionGetRepository;
     }
 
     public override async Task<KingdomResponse> GetKingdom(KingdomRequest request, ServerCallContext context)
     {
+        //var results = await _kigdomTransactionRepository.RetrieveEntities(1);
+        //var transaction = new KingdomTransaction{ KingdomId = 1, Type = TransactionType.Income, Food = 13, Wood = 13, Gold = 13, Stone = 13 };
+
+        //var s = await _kingdomTransactionCreateRepository.Create(transaction);
+
+
         var kingdoms = await _kingdomGetRepository.RetrieveEntities();
 
         var kingdomResponse = new KingdomResponse

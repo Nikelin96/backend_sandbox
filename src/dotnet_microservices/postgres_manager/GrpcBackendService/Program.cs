@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddSingleton<DataContext>();
     services.AddSingleton<IConnectionCreator, DataContext>();
     services.AddSingleton<IDataAccessExecutor, DapperExecutor>();
+    services.AddScoped<IRetrieveEntitesByIdQuery<KingdomTransaction>, KingdomTransactionRepository>();
+    services.AddScoped<ICreateEntityCommand<KingdomTransaction>, KingdomTransactionRepository>();
     services.AddScoped<IRetrieveEntitesByIdQuery<KingdomTechnology>, KingdomTechnologyRepository>();
     services.AddScoped<IRetrieveEntitesQuery<Kingdom>, KingdomRepository>();
     services.AddScoped<ICreateEntityCommand<Kingdom>, KingdomRepository>();
