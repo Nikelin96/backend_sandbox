@@ -45,15 +45,6 @@ CREATE TABLE IF NOT EXISTS kingdom (
     rank INTEGER NOT NULL,
     continent_id INTEGER REFERENCES continent(id)
 );
-CREATE TABLE IF NOT EXISTS kingdom_transaction (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    kingdom_id INTEGER NOT NULL REFERENCES kingdom(id) ON DELETE CASCADE,
-    type transaction_type NOT NULL,
-    wood INTEGER NULL,
-    food INTEGER NULL,
-    gold INTEGER NULL,
-    stone INTEGER NULL
-);
 CREATE TABLE IF NOT EXISTS technology (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(50),
@@ -114,6 +105,50 @@ CREATE TABLE IF NOT EXISTS price (
         )
         OR (
             technology_id IS NULL
+            AND unit_id IS NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NOT NULL
+        )
+    )
+);
+CREATE TABLE IF NOT EXISTS kingdom_transaction (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    kingdom_id INTEGER NOT NULL REFERENCES kingdom(id) ON DELETE CASCADE,
+    type transaction_type NOT NULL,
+    wood INTEGER NULL,
+    food INTEGER NULL,
+    gold INTEGER NULL,
+    stone INTEGER NULL,
+    technology_id INTEGER REFERENCES technology(id) ON DELETE CASCADE,
+    unit_id INTEGER REFERENCES unit(id) ON DELETE CASCADE,
+    skill_id INTEGER REFERENCES skill(id) ON DELETE CASCADE,
+    equipment_id INTEGER REFERENCES equipment(id) ON DELETE CASCADE,
+    CHECK (
+        (type = 'income')
+        OR (
+            type = 'expense'
+            AND technology_id IS NOT NULL
+            AND unit_id IS NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            type = 'expense'
+            AND technology_id IS NULL
+            AND unit_id IS NOT NULL
+            AND skill_id IS NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            type = 'expense'
+            AND technology_id IS NULL
+            AND unit_id IS NULL
+            AND skill_id IS NOT NULL
+            AND equipment_id IS NULL
+        )
+        OR (
+            type = 'expense'
+            AND technology_id IS NULL
             AND unit_id IS NULL
             AND skill_id IS NULL
             AND equipment_id IS NOT NULL

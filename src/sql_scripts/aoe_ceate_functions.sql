@@ -10,7 +10,7 @@ SELECT k.name AS name,
   t.description AS technology_description,
   kt.research_start_time AS research_start_time,
   kt.research_status AS research_status
-FROM kingdom k
+FROM kingdom AS k
   JOIN kingdom_technology kt ON k.id = kt.kingdom_id
   JOIN technology t ON kt.technology_id = t.id
 WHERE k.id = kingdom_id;
@@ -32,6 +32,25 @@ SELECT t.id AS technology_id,
   td.equipment_id AS equipment_id
 FROM technology AS t
   LEFT JOIN technology_dependency AS td ON td.technology_id = t.id
+WHERE t.id = technology_identifier;
+END;
+$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION get_technology_price(technology_identifier INTEGER) RETURNS TABLE (
+    id INTEGER,
+    name VARCHAR,
+    wood INTEGER,
+    food INTEGER,
+    gold INTEGER,
+    stone INTEGER
+  ) AS $$ BEGIN RETURN QUERY
+SELECT t.id AS id,
+  t.name AS name,
+  tp.wood AS wood,
+  tp.food AS food,
+  tp.gold AS gold,
+  tp.stone AS stone
+  FROM technology AS t
+  JOIN price as tp ON tp.technology_id = t.id
 WHERE t.id = technology_identifier;
 END;
 $$ LANGUAGE plpgsql;

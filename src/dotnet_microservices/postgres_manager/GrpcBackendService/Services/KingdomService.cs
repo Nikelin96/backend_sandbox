@@ -3,7 +3,6 @@ using DataAccessLibrary;
 using DataAccessLibrary.Models;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using GrpcBackendService.Models;
 using GrpcService.KingdomRpc;
 
 namespace GrpcBackendService.Services;
@@ -11,6 +10,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 {
     private readonly ILogger<KingdomService> _logger;
     private readonly IRetrieveEntitesByIdQuery<KingdomTechnology> _kigdomTechnologyRepository;
+    private readonly ICreateEntityCommand<KingdomTechnology> _test;
     private readonly IRetrieveEntitesQuery<Kingdom> _kingdomGetRepository;
 
     private readonly IRetrieveEntitesByIdQuery<KingdomTransaction> _kigdomTransactionRepository;
@@ -20,21 +20,31 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
         IRetrieveEntitesByIdQuery<KingdomTechnology> kigdomTechnologyRepository,
         IRetrieveEntitesQuery<Kingdom> kingdomGetRepository,
         IRetrieveEntitesByIdQuery<KingdomTransaction> kigdomTransactionRepository,
-        ICreateEntityCommand<KingdomTransaction> kingdomTransactionGetRepository)
+        ICreateEntityCommand<KingdomTransaction> kingdomTransactionGetRepository,
+        ICreateEntityCommand<KingdomTechnology> test)
     {
         _logger = logger;
         _kigdomTechnologyRepository = kigdomTechnologyRepository;
         _kingdomGetRepository = kingdomGetRepository;
         _kigdomTransactionRepository = kigdomTransactionRepository;
         _kingdomTransactionCreateRepository = kingdomTransactionGetRepository;
+        _test = test;
     }
 
     public override async Task<KingdomResponse> GetKingdom(KingdomRequest request, ServerCallContext context)
     {
-        var results = await _kigdomTransactionRepository.RetrieveEntities(1);
-        var transaction = new KingdomTransaction{ KingdomId = 1, Type = TransactionType.Income, Food = 13, Wood = 13, Gold = 13, Stone = 13 };
+        //var results = await _kigdomTransactionRepository.RetrieveEntities(1);
+        //var transaction = new KingdomTransaction{ KingdomId = 1, Type = TransactionType.Income, Food = 13, Wood = 13, Gold = 13, Stone = 13 };
 
-        var s = await _kingdomTransactionCreateRepository.Create(transaction);
+        //var s = await _kingdomTransactionCreateRepository.Create(transaction);
+
+
+
+
+
+        var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = "in progress", TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
+        var s =await _test.Create(technology);
+
 
 
         var kingdoms = await _kingdomGetRepository.RetrieveEntities();

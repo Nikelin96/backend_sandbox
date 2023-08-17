@@ -49,26 +49,26 @@ INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id
 
 
 -- Insert transaction: Kingdom -> expense -> Technology(Unit -> Spearmen)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 10, 10, 10, 10);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 10, 10, 10, 10, 1, null, null, null);
 INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 1, 2, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
 
 
 -- Insert transaction: Kingdom -> expense -> Technology(Skill -> attack)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 10, 10, 10, 10);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 10, 10, 10, 10, 2, null, null, null);
 INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 2, 3, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
 
 
 -- Insert transaction: Kingdom -> expense -> Technology(Equipment -> chain mail)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 10, 10, 10, 10);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 10, 10, 10, 10, 3, null, null, null);
 INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 2, 4, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
 
 
 -- Insert transaction: Kingdom -> expense -> Unit(Spearmen)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 5, 5, 5, 5);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 5, 5, 5, 5, null, 1, null, null);
 -- Insert transaction: Kingdom -> expense -> Skill(attack)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 4, 4, 4, 4);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 4, 4, 4, 4, null, null, 1, null);
 -- Insert transaction: Kingdom -> expense -> Equipment(chain mail)
-INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'expense', 3, 3, 3, 3);
+INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (1, 'expense', 3, 3, 3, 3, null, null, null, 1);
 
 
 -- Attach Unit(Spearmen) --> Kingdom(England)

@@ -2,11 +2,9 @@
 using Dapper;
 using Dapper.FluentMap;
 using DataAccessLibrary;
-using GrpcBackendService.Models;
 using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
-using System.Reflection;
 
 namespace GrpcBackendService.DataAccess.Repositories;
 public sealed class DataContext : IConnectionCreator
@@ -39,9 +37,9 @@ public sealed class DataContext : IConnectionCreator
         // create database tables if they don't exist
         using var connection = Create();
 
-        _executeScript("CreateTablesScriptLocation");
-        _executeScript("CreateFunctionsScriptLocation");
-        _executeScript("InsertDataScriptLocation");
+        //_executeScript("CreateTablesScriptLocation");
+        //_executeScript("CreateFunctionsScriptLocation");
+        //_executeScript("InsertDataScriptLocation");
 
         void _executeScript(string parameterName)
         {
