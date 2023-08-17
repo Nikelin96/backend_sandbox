@@ -1,6 +1,4 @@
-﻿
-using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories;
 public sealed class KingdomRepository : ICreateEntityCommand<Kingdom>, IRetrieveEntitesQuery<Kingdom>

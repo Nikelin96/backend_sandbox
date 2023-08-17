@@ -1,7 +1,12 @@
-﻿
-using System.Data;
+﻿using System.Data;
 
 namespace DataAccessLibrary;
+
+public interface IConnectionCreator
+{
+    IDbConnection Create();
+}
+
 public interface IRetrieveEntitesByIdQuery<T>
 {
     public Task<IEnumerable<T>> RetrieveEntities(int id);
@@ -28,7 +33,3 @@ public interface IDataAccessExecutor
     public Task<IEnumerable<T>> QueryAsync<T>(IDbConnection connection, string sql, object? entity = null);
 }
 
-public interface IConnectionCreator
-{
-    IDbConnection Create();
-}

@@ -1,5 +1,4 @@
-﻿using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary.Repositories
 {

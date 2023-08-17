@@ -1,5 +1,4 @@
-﻿
-using Dapper;
+﻿using Dapper;
 
 namespace DataAccessLibrary.Models;
 public sealed class TechnologyDependency
