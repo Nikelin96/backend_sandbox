@@ -16,20 +16,30 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddSingleton<DataContext>();
     services.AddSingleton<IConnectionCreator, DataContext>();
     services.AddSingleton<IDataAccessExecutor, DapperExecutor>();
-    services.AddScoped<KingdomTransactionRepository, KingdomTransactionRepository>();
-    services.AddScoped<KingdomTechnologyRepository, KingdomTechnologyRepository>();
-    services.AddScoped<KingdomRepository, KingdomRepository>();
+
     services.AddScoped<TechnologyRepository, TechnologyRepository>();
     services.AddScoped<PriceRepository, PriceRepository>();
+
     services.AddScoped<EquipmentRepository, EquipmentRepository>();
     services.AddScoped<StatRepository, StatRepository>();
     services.AddScoped<SkillRepository, SkillRepository>();
+
     services.AddScoped<UnitRepository, UnitRepository>();
+    services.AddScoped<UnitSkillRepository, UnitSkillRepository>();
+    services.AddScoped<UnitEquipmentRepository, UnitEquipmentRepository>();
+
+    services.AddScoped<KingdomTransactionRepository, KingdomTransactionRepository>();
+    services.AddScoped<KingdomTechnologyRepository, KingdomTechnologyRepository>();
     services.AddScoped<KingdomUnitRepository, KingdomUnitRepository>();
+    services.AddScoped<KingdomRepository, KingdomRepository>();
+
     services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
+    services.AddScoped<CreateKingdomTechnologyJourney, CreateKingdomTechnologyJourney>();
     services.AddScoped<CreateEquipmentJourney, CreateEquipmentJourney>();
     services.AddScoped<CreateSkillJourney, CreateSkillJourney>();
     services.AddScoped<CreateUnitJourney, CreateUnitJourney>();
+
+
 
     services.AddGrpc();
 }
