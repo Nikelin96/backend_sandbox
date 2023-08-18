@@ -20,7 +20,7 @@ INSERT INTO technology (name, description, research_time) VALUES ('Spearmen tech
 INSERT INTO price(wood, food, gold, stone, technology_id, unit_id) VALUES (10, 10, 10, 10, 1, null);
 -- Insert Unit(Spearmen)
 INSERT INTO stat (hit_points, damage_points) VALUES (100, 10);
-INSERT INTO unit (name, stat_id, kingdom_id) VALUES ('Spearmen', 1, 1);
+INSERT INTO unit (name, stat_id) VALUES ('Spearmen', 1);
 INSERT INTO price(wood, food, gold, stone, technology_id, unit_id) VALUES (5, 5, 5, 5, null, 1);
 -- Insert technology dependencies: Technology(Spearmen) --> Unit(Spearmen)
 INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(1, true, 1, null);
@@ -74,9 +74,9 @@ INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone, tech
 -- Attach Unit(Spearmen) --> Kingdom(England)
 INSERT INTO kingdom_unit (kingdom_id, unit_id, kingdom_transaction_id) VALUES (1, 1, 4);
 -- Attach Skill(attack) --> Unit(Spearmen) --> Kingdom(England)
-INSERT INTO unit_skill (skill_id, unit_id, kingdom_transaction_id) VALUES (1, 1, 5);
+INSERT INTO unit_skill (skill_id, unit_id) VALUES (1, 1);
 -- Attach Equipment(chain mail) --> Unit(Spearmen) --> Kingdom(England)
-INSERT INTO unit_equipment (equipment_id, unit_id, kingdom_transaction_id) VALUES (1, 1, 6);
+INSERT INTO unit_equipment (equipment_id, unit_id) VALUES (1, 1);
 
 
 COMMIT;

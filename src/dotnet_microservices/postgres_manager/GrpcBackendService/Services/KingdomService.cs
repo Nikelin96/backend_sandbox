@@ -20,7 +20,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
         ILogger<KingdomService> logger,
         KingdomTechnologyRepository kigdomTechnologyRepository,
         KingdomRepository kingdomRepository,
-        KingdomTransactionRepository kigdomTransactionRepository, 
+        KingdomTransactionRepository kigdomTransactionRepository,
         KingdomUnitRepository kingdomUnitRepository)
     {
         _logger = logger;
@@ -45,6 +45,9 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
         //var s =await _kigdomTechnologyRepository.Create(technology);
 
         var results = await _kingdomUnitRepository.RetrieveEntities(1);
+
+        var unit = new KingdomUnit{UnitId = 1};
+        var s = await _kingdomUnitRepository.Create(unit);
 
 
         var kingdoms = await _kingdomRepository.RetrieveEntities();
