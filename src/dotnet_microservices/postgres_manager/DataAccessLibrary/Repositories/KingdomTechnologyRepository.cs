@@ -88,9 +88,10 @@ public sealed class KingdomTechnologyRepository
 
                 // INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) VALUES(1, 1, 2, 'completed', CURRENT_TIMESTAMP - INTERVAL '30 days');
                 var sql = @"INSERT INTO kingdom_technology (kingdom_id, technology_id, kingdom_transaction_id, research_status, research_start_time) 
-                    VALUES (@KingdomId, @TechnologyId, @KingdomTransactionId, @ResearchStatus::research_status_type, TO_TIMESTAMP(@ResearchStartTime::text, 'YYYY-MM-DD HH24:MI')) RETURNING id;"; //`
+                    VALUES (@KingdomId, @TechnologyId, @KingdomTransactionId, @ResearchStatus::research_status_type, TO_TIMESTAMP(@ResearchStartTime::text, 'YYYY-MM-DD HH24:MI')) 
+                    RETURNING id;";
 
-                var s = await _executor.ExecuteScalarAsync<int>(connection, sql,
+                var id = await _executor.ExecuteScalarAsync<int>(connection, sql,
                     new
                     {
                         KingdomId = kingdomTecnology.KingdomId,
