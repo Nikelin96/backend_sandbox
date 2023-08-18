@@ -41,3 +41,5 @@ var query = @"SELECT * FROM get_kingdom_units(1);";
 connection.Query(query).Dump();
 
 
+
+
