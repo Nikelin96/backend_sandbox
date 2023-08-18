@@ -13,4 +13,14 @@ public class DapperExecutor : IDataAccessExecutor
     {
         return await connection.QueryAsync<T>(sql, entity);
     }
+
+    public async Task<SqlMapper.GridReader> QueryMultiple(IDbConnection connection, string sql, object? entity = null)
+    {
+        return await connection.QueryMultipleAsync(sql, entity);
+    }
+
+    public async Task<T> QuerySingleAsync<T>(IDbConnection connection, string sql, object? entity = null)
+    {
+        return await connection.QuerySingleAsync<T>(sql, entity);
+    }
 }

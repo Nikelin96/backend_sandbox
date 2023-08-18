@@ -73,15 +73,22 @@ WHERE k.id = kingdom_identifier;
 END;
 $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_unit_technologies(unit_identifier INTEGER) RETURNS TABLE (
-    unit_id INTEGER,
     technology_id INTEGER,
-    is_required BOOLEAN
+    technology_name VARCHAR(50),
+    is_required BOOLEAN,
+    unit_id INTEGER,
+    skill_id INTEGER,
+    equipment_id INTEGER
   ) AS $$ BEGIN RETURN QUERY
-SELECT u.id AS unit_id,
-  td.technology_id AS technology_id,
-  td.is_required AS is_required
+SELECT td.technology_id AS technology_id,
+  tech.name AS technology_name,
+  td.is_required AS is_required,
+  td.unit_id AS unit_id,
+  td.skill_id AS skill_id,
+  td.equipment_id AS equipment_id
 FROM unit AS u
   JOIN technology_dependency AS td ON td.unit_id = u.id
+  JOIN technology AS tech ON tech.id = td.technology_id
 WHERE u.id = unit_identifier;
 END;
 $$ LANGUAGE plpgsql;

@@ -40,13 +40,12 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
 
 
-
         //var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = ResearchStatusType.InProgress, TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
         //var s =await _kigdomTechnologyRepository.Create(technology);
 
         var results = await _kingdomUnitRepository.RetrieveEntities(1);
 
-        var unit = new KingdomUnit{UnitId = 1};
+        var unit = new KingdomUnit{UnitId = 12};
         var s = await _kingdomUnitRepository.Create(unit);
 
 
