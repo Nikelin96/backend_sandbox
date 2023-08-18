@@ -1,13 +1,6 @@
-class Point:
-    def Move(self):
-        print("mov3")
+from automation.integration import Task
 
-    def Draw(self):
-        print("draw")
+incomingCommand = input("Please enter your command: ")
 
-
-
-p1 = Point()
-p1.Draw()
-p1.w = "asd"
-print(p1.w)
+task = Task(incomingCommand)
+print(task)
