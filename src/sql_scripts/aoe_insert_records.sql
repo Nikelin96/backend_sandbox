@@ -22,8 +22,8 @@ INSERT INTO price(wood, food, gold, stone, technology_id, unit_id) VALUES (10, 1
 INSERT INTO stat (hit_points, damage_points) VALUES (100, 10);
 INSERT INTO unit (name, stat_id) VALUES ('Spearmen', 1);
 INSERT INTO price(wood, food, gold, stone, technology_id, unit_id) VALUES (5, 5, 5, 5, null, 1);
--- Insert technology dependencies: Technology(Spearmen) --> Unit(Spearmen)
-INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(1, true, 1, null);
+-- Insert technology dependencies: Unit(Spearmen) --> Technology(Spearmen)
+INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id, equipment_id) VALUES(1, true, 1, null, null);
 
 
 -- Insert technology(Skill -> attack)
@@ -33,8 +33,8 @@ INSERT INTO price(wood, food, gold, stone, technology_id, unit_id, skill_id, equ
 INSERT INTO stat (hit_points) VALUES (10);
 INSERT INTO skill (type, stat_id) VALUES ('attack', 2); 
 INSERT INTO price(wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (4, 4, 4, 4, null, null, 1, null);
--- Insert technology dependencies: Technology(attak) --> Skill(attack)
-INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(2, true, null, 1);
+-- Insert technology dependencies: Unit(Spearmen) --> Technology(attak) --> Skill(attack)
+INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id) VALUES(2, true, 1, 1);
 
 
 -- Insert technology(Equipment -> chain mail)
@@ -44,8 +44,8 @@ INSERT INTO price(wood, food, gold, stone, technology_id, unit_id, skill_id, equ
 INSERT INTO stat (health_points, defense_points) VALUES (10, 2);
 INSERT INTO equipment (name, stat_id) VALUES ('chain mail', 3); 
 INSERT INTO price(wood, food, gold, stone, technology_id, unit_id, skill_id, equipment_id) VALUES (3, 3, 3, 3, null, null, null, 1);
--- Insert technology dependencies: Technology(attak) --> Skill(attack)
-INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id, equipment_id) VALUES(3, true, null, null, 1);
+-- Insert technology dependencies: Unit(Spearmen) --> Technology(attak) --> Equipment(chain mail)
+INSERT INTO technology_dependency (technology_id, is_required, unit_id, skill_id, equipment_id) VALUES(3, true, 1, null, 1);
 
 
 -- Insert transaction: Kingdom -> expense -> Technology(Unit -> Spearmen)

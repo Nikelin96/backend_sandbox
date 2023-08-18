@@ -168,24 +168,21 @@ CREATE TABLE IF NOT EXISTS technology_dependency (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     technology_id INTEGER REFERENCES technology(id),
     is_required BOOLEAN NOT NULL,
-    unit_id INTEGER REFERENCES unit(id),
-    skill_id INTEGER REFERENCES skill(id),
-    equipment_id INTEGER REFERENCES equipment(id),
+    unit_id INTEGER REFERENCES unit(id) ON DELETE CASCADE,
+    skill_id INTEGER REFERENCES skill(id) ON DELETE CASCADE,
+    equipment_id INTEGER REFERENCES equipment(id) ON DELETE CASCADE,
     CHECK (
         (
-            unit_id IS NOT NULL
-            AND skill_id IS NULL
+            skill_id IS NOT NULL
             AND equipment_id IS NULL
         )
         OR (
-            unit_id IS NULL
-            AND skill_id IS NOT NULL
-            AND equipment_id IS NULL
-        )
-        OR (
-            unit_id IS NULL
-            AND skill_id IS NULL
+            skill_id IS NULL
             AND equipment_id IS NOT NULL
+        )
+        OR (
+            skill_id IS NULL
+            AND equipment_id IS NULL
         )
     )
 );

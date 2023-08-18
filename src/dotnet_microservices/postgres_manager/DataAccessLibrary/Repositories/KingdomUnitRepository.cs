@@ -32,6 +32,16 @@ public sealed class KingdomUnitRepository
 
         var results = await _executor.QueryAsync<UnitTechnology>(connection, query, new { unit_identifier = unit.UnitId });
 
+        var getPricesForUnit = @"SELECT * FROM price WHERE unit_id = @UnitId;";
+        var unitPrices = await _executor.QueryAsync<Price>(connection, getPricesForUnit, new { UnitId = unit.UnitId });
+
+        var getPricesForEquipments = @"SELECT * FROM price WHERE equipment_id = ANY (@ids)";
+        var arr = results.Select(x => x.EquipmentId).Where(x => x.HasValue).Select(x => x.Value).ToList();
+        var equipmentPrices = await _executor.QueryAsync<Price>(connection, getPricesForEquipments, new { ids = arr });
+
+        var getPricesForSkills =@"SELECT * FROM price WHERE skill_id = ANY (@ids)";
+        var skillPrices = await _executor.QueryAsync<Price>(connection, getPricesForSkills, new { ids = results.Select(x => x.SkillId).Where(x => x.HasValue).ToArray() });
+
 
         // assuming that kingdom exists
         // get all related technologies for the unit(required+optional)
