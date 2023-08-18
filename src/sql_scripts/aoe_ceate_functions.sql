@@ -35,7 +35,7 @@ FROM technology AS t
 WHERE t.id = technology_identifier;
 END;
 $$ LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION get_technology_price(technology_identifier INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION get_technology_prices(technology_identifier INTEGER) RETURNS TABLE (
     id INTEGER,
     name VARCHAR,
     wood INTEGER,
