@@ -25,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<StatRepository, StatRepository>();
     services.AddScoped<SkillRepository, SkillRepository>();
     services.AddScoped<UnitRepository, UnitRepository>();
+    services.AddScoped<KingdomUnitRepository, KingdomUnitRepository>();
     services.AddScoped<CreateTechnologyJourney, CreateTechnologyJourney>();
     services.AddScoped<CreateEquipmentJourney, CreateEquipmentJourney>();
     services.AddScoped<CreateSkillJourney, CreateSkillJourney>();

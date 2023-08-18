@@ -5,6 +5,7 @@ using DataAccessLibrary;
 using GrpcBackendService.Models.Mappings;
 using Npgsql;
 using System.Data;
+using System.Reflection;
 
 namespace GrpcBackendService.DataAccess.Repositories;
 public sealed class DataContext : IConnectionCreator
@@ -51,9 +52,9 @@ public sealed class DataContext : IConnectionCreator
         FluentMapper.Initialize(config =>
         {
             //config.AddConvention<PropertyTransformConvention>().ForEntity<Technology>().ForEntity<KingdomTechnology>().ForEntity<TechnologyDependency>().ForEntity<KingdomTransaction>();
-            config.AddConvention<PropertyTransformConvention>().ForEntitiesInCurrentAssembly("GrpcBackendService.Models");
+            //config.AddConvention<PropertyTransformConvention>().ForEntitiesInCurrentAssembly("DataAccessLibrary.Models");
 
-            //config.AddConvention<PropertyTransformConvention>().ForEntitiesInAssembly(Assembly.Load("DataAccessLibrary"));
+            config.AddConvention<PropertyTransformConvention>().ForEntitiesInAssembly(Assembly.Load("DataAccessLibrary"));
         });
     }
 }

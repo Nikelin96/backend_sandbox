@@ -12,7 +12,8 @@ public sealed class GameService : GameRpc.GameRpcBase
     private readonly CreateEquipmentJourney _createEquipmentJourney;
     private readonly CreateSkillJourney _createSkilJourney;
     private readonly KingdomRepository _kingdomRepository;
-    private readonly TechnologyRepository technologyRepository;
+    private readonly TechnologyRepository _technologyRepository;
+
 
     public GameService(
         ILogger<KingdomService> logger,
@@ -20,14 +21,16 @@ public sealed class GameService : GameRpc.GameRpcBase
         CreateTechnologyJourney createTechnologJourney,
         CreateEquipmentJourney createEquipmentJourney,
         CreateSkillJourney createSkilJourney,
-        TechnologyRepository technologyRepository)
+        TechnologyRepository technologyRepository
+)
     {
         _logger = logger;
         _createTechnologyJourney = createTechnologJourney;
         _createEquipmentJourney = createEquipmentJourney;
         _createSkilJourney = createSkilJourney;
         _kingdomRepository = kingdomRepository;
-        this.technologyRepository = technologyRepository;
+        _technologyRepository = technologyRepository;
+        
     }
 
     public override async Task<KingdomResponse> CreateEntities(KingdomRequest request, ServerCallContext context)
@@ -44,16 +47,16 @@ public sealed class GameService : GameRpc.GameRpcBase
         {
 
             var technologyDependency = new TechnologyDependency { TechnologyId = 2343, UnitId = 1, SkillId = 1, EquipmentId = 1};
-            await technologyRepository.SetTechnologyDependency(technologyDependency);
+            await _technologyRepository.SetTechnologyDependency(technologyDependency);
 
             var technologyDependency2 = new TechnologyDependency { TechnologyId = 1, IsRequired = false,  UnitId = 1};
-            await technologyRepository.SetTechnologyDependency(technologyDependency2);
+            await _technologyRepository.SetTechnologyDependency(technologyDependency2);
 
             var technologyDependency3 = new TechnologyDependency { TechnologyId = 1, UnitId = 1, SkillId = 1, EquipmentId = 2 };
-            await technologyRepository.SetTechnologyDependency(technologyDependency3);
+            await _technologyRepository.SetTechnologyDependency(technologyDependency3);
 
             var technologyDependency4 = new TechnologyDependency { TechnologyId = 3, IsRequired = false, SkillId = 234 };
-            await technologyRepository.SetTechnologyDependency(technologyDependency4);
+            await _technologyRepository.SetTechnologyDependency(technologyDependency4);
 
         }
         catch (Exception ex)

@@ -12,6 +12,7 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
     private readonly ILogger<KingdomService> _logger;
     private readonly KingdomTechnologyRepository _kigdomTechnologyRepository;
     private readonly KingdomRepository _kingdomRepository;
+    private readonly KingdomUnitRepository _kingdomUnitRepository;
 
     private readonly KingdomTransactionRepository _kigdomTransactionRepository;
 
@@ -19,12 +20,14 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
         ILogger<KingdomService> logger,
         KingdomTechnologyRepository kigdomTechnologyRepository,
         KingdomRepository kingdomRepository,
-        KingdomTransactionRepository kigdomTransactionRepository)
+        KingdomTransactionRepository kigdomTransactionRepository, 
+        KingdomUnitRepository kingdomUnitRepository)
     {
         _logger = logger;
         _kigdomTechnologyRepository = kigdomTechnologyRepository;
         _kingdomRepository = kingdomRepository;
         _kigdomTransactionRepository = kigdomTransactionRepository;
+        _kingdomUnitRepository = kingdomUnitRepository;
     }
 
     public override async Task<KingdomResponse> GetKingdom(KingdomRequest request, ServerCallContext context)
@@ -38,9 +41,10 @@ public sealed class KingdomService : KingdomRpc.KingdomRpcBase
 
 
 
-        var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = ResearchStatusType.InProgress, TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
-        var s =await _kigdomTechnologyRepository.Create(technology);
+        //var technology= new KingdomTechnology{KingdomId = 1, KingdomTransactionId =1, Name = "asdasd", ResearchStartTime =DateTime.Now,ResearchStatus = ResearchStatusType.InProgress, TechnologyDescription ="", TechnologyId = 1, TechnologyName = "sa"};
+        //var s =await _kigdomTechnologyRepository.Create(technology);
 
+        var results = await _kingdomUnitRepository.RetrieveEntities(1);
 
 
         var kingdoms = await _kingdomRepository.RetrieveEntities();

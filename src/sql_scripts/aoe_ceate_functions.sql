@@ -49,8 +49,26 @@ SELECT t.id AS id,
   tp.food AS food,
   tp.gold AS gold,
   tp.stone AS stone
-  FROM technology AS t
+FROM technology AS t
   JOIN price as tp ON tp.technology_id = t.id
 WHERE t.id = technology_identifier;
+END;
+$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION get_kingdom_units(kingdom_identifier INTEGER) RETURNS TABLE (
+    id INTEGER,
+    name VARCHAR,
+    kingdom_id INTEGER,
+    unit_id INTEGER,
+    kingdom_transaction_id INTEGER
+  ) AS $$ BEGIN RETURN QUERY
+SELECT ku.id as id,
+  u.name AS name,
+  ku.kingdom_id AS kingdom_id,
+  ku.unit_id AS unit_id,
+  ku.kingdom_transaction_id AS kingdom_transaction_id
+FROM kingdom AS k
+  LEFT JOIN kingdom_unit AS ku ON ku.kingdom_id = k.id
+  JOIN unit AS u ON u.id = ku.unit_id
+WHERE k.id = kingdom_identifier;
 END;
 $$ LANGUAGE plpgsql;

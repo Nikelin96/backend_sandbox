@@ -12,6 +12,15 @@ public sealed class KingdomTransactionRepository
         _executor = executor;
     }
 
+    public async Task<IEnumerable<KingdomTransaction>> RetrieveEntities(int id)
+    {
+        using var connection = _connectionCreator.Create();
+
+        var sql = @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId;";
+
+        return await _executor.QueryAsync<KingdomTransaction>(connection, sql, new { KingdomId = id });
+    }
+
     public async Task<int> Create(KingdomTransaction kingdom)
     {
         // INSERT INTO kingdom_transaction (kingdom_id, type, wood, food, gold, stone) VALUES (1, 'income', 200, 200, 200, 200);
@@ -20,14 +29,5 @@ public sealed class KingdomTransactionRepository
         using var connection = _connectionCreator.Create();
 
         return await _executor.ExecuteScalarAsync<int>(connection, sql, new { KingdomId = kingdom.KingdomId, Type = kingdom.Type.ToPostgreEnum(), Wood = kingdom.Wood, Food = kingdom.Food, Gold = kingdom.Gold, Stone = kingdom.Stone });
-    }
-
-    public async Task<IEnumerable<KingdomTransaction>> RetrieveEntities(int id)
-    {
-        using var connection = _connectionCreator.Create();
-
-        var sql = @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId;";
-
-        return await _executor.QueryAsync<KingdomTransaction>(connection, sql, new { KingdomId = id });
     }
 }
