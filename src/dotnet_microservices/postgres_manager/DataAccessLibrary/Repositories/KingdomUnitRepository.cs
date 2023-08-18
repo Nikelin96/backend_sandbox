@@ -45,7 +45,7 @@ public sealed class KingdomUnitRepository
 
         // assuming that kingdom exists
         // get all related technologies for the unit(required+optional)
-        // check that kingdom has all required technologies for that unit
+        // check that kingdom has all required technologies for that unit   
         // get unit and all related stats, skills, equipment, prices
         // check that kingdom has transaction related to unit purchase, price matches to everything with previous step
         // here we are good
