@@ -5,77 +5,42 @@ using DataAccessLibrary.Repositories;
 namespace GrpcBackendService.UnitsOfWork;
 public sealed class CreateKingdomTechnologyJourney
 {
-
-
     private readonly KingdomTechnologyRepository _kingdomTechnologyRepository;
+    private readonly KingdomTransactionRepository _kingdomTransactionRepository;
+    private readonly TechnologyRepository _technologyRepository;
     private readonly IConnectionCreator _connectionCreator;
     private readonly IDataAccessExecutor _executor;
 
-    public CreateKingdomTechnologyJourney(KingdomTechnologyRepository kingdomTechnologyRepository
-        , IConnectionCreator connectionCreator, IDataAccessExecutor executor)
+    public CreateKingdomTechnologyJourney(KingdomTechnologyRepository kingdomTechnologyRepository,
+        TechnologyRepository technologyRepository
+        , IConnectionCreator connectionCreator, IDataAccessExecutor executor, KingdomTransactionRepository kingdomTransactionRepository)
     {
         _connectionCreator = connectionCreator;
         _executor = executor;
-
-
         _kingdomTechnologyRepository = kingdomTechnologyRepository;
+        _technologyRepository = technologyRepository;
+        _kingdomTransactionRepository = kingdomTransactionRepository;
     }
 
     public async Task<int> CreateKingdomTechnology(KingdomTechnology kingdomTecnology)
     {
-        // check that technology exist, take its price
-        var queryTechnologyPrice = @"SELECT * FROM get_technology_prices(@technology_identifier);";
+        var technologyPrices = await _technologyRepository.GetPricesForTechnology(kingdomTecnology.TechnologyId.Value);
 
-        using var connection = _connectionCreator.Create();
-
-        var technologiesWithPrice = await _executor.QueryAsync<TechnologyPrice>(connection, queryTechnologyPrice, new { technology_identifier = kingdomTecnology.TechnologyId });
-
-        if (technologiesWithPrice.Count() == 0)
+        if (technologyPrices.Count() == 0)
         {
             throw new KeyNotFoundException("Technology with such id does not exist");
         }
 
         // check that kingdom_transaction exists, and its value equals to technology price
-        var queryKingdomTransaction =  @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId AND technology_id = @TechnologyId";
-
-        if (kingdomTecnology.UnitId.HasValue)
-        {
-            queryKingdomTransaction += " AND unit_id = @UnitId";
-        }
-        else
-        {
-            queryKingdomTransaction += " AND unit_id IS NULL";
-        }
-        if (kingdomTecnology.SkillId.HasValue)
-        {
-            queryKingdomTransaction += " AND skill_id = @SkillId";
-        }
-        else
-        {
-            queryKingdomTransaction += " AND skill_id IS NULL";
-        }
-        if (kingdomTecnology.EquipmentId.HasValue)
-        {
-            queryKingdomTransaction += " AND equipment_id = @EquipmentId";
-        }
-        else
-        {
-            queryKingdomTransaction += " AND equipment_id IS NULL";
-        }
-
-        queryKingdomTransaction += ";";
-
-        // todo add conditions AND unit_id = @UnitId AND skill_id = @SkillId AND equipment_id = @EquipmentId;;
-
-        var kingdomTransactions = await _executor.QueryAsync<KingdomTransaction>(connection, queryKingdomTransaction, kingdomTecnology);
+        var kingdomTransactions = await _kingdomTransactionRepository.GetKingdomTransactionsForKingdomTechnology(kingdomTecnology);
 
         if (kingdomTransactions.Count() > 0)
         { //we are good
 
-            var woodTotal = technologiesWithPrice.Sum((x)=> x.Wood);
-            var foodTotal = technologiesWithPrice.Sum((x)=> x.Food);
-            var goldTotal = technologiesWithPrice.Sum((x)=> x.Gold);
-            var stoneTotal = technologiesWithPrice.Sum((x)=> x.Stone);
+            var woodTotal = technologyPrices.Sum((x)=> x.Wood);
+            var foodTotal = technologyPrices.Sum((x)=> x.Food);
+            var goldTotal = technologyPrices.Sum((x)=> x.Gold);
+            var stoneTotal = technologyPrices.Sum((x)=> x.Stone);
 
             var checkSum = kingdomTransactions.First();
 

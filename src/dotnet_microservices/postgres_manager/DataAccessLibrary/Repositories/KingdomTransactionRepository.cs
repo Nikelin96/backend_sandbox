@@ -30,4 +30,40 @@ public sealed class KingdomTransactionRepository
 
         return await _executor.ExecuteScalarAsync<int>(connection, sql, new { KingdomId = kingdom.KingdomId, Type = kingdom.Type.ToPostgreEnum(), Wood = kingdom.Wood, Food = kingdom.Food, Gold = kingdom.Gold, Stone = kingdom.Stone });
     }
+
+    public async Task<IEnumerable<KingdomTransaction>> GetKingdomTransactionsForKingdomTechnology(KingdomTechnology kingdomTecnology)
+    {
+        // check that kingdom_transaction exists, and its value equals to technology price
+        var queryKingdomTransaction =  @"SELECT * FROM kingdom_transaction WHERE kingdom_id = @KingdomId AND technology_id = @TechnologyId";
+
+        if (kingdomTecnology.UnitId.HasValue)
+        {
+            queryKingdomTransaction += " AND unit_id = @UnitId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND unit_id IS NULL";
+        }
+        if (kingdomTecnology.SkillId.HasValue)
+        {
+            queryKingdomTransaction += " AND skill_id = @SkillId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND skill_id IS NULL";
+        }
+        if (kingdomTecnology.EquipmentId.HasValue)
+        {
+            queryKingdomTransaction += " AND equipment_id = @EquipmentId";
+        }
+        else
+        {
+            queryKingdomTransaction += " AND equipment_id IS NULL";
+        }
+
+        queryKingdomTransaction += ";";
+
+        var connection = _connectionCreator.Create();
+        return await _executor.QueryAsync<KingdomTransaction>(connection, queryKingdomTransaction, kingdomTecnology);
+    }
 }

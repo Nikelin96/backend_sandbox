@@ -23,6 +23,18 @@ public sealed class TechnologyRepository
         return await _executor.ExecuteScalarAsync<int>(connection, sql, technology);
     }
 
+    public async Task<IEnumerable<TechnologyPrice>> GetPricesForTechnology(int technologyId)
+    {
+        var queryTechnologyPrice = @"SELECT * FROM get_technology_prices(@technology_identifier);";
+
+        using var connection = _connectionCreator.Create();
+
+        return await _executor.QueryAsync<TechnologyPrice>(connection, queryTechnologyPrice, new { technology_identifier = technologyId });
+
+    }
+
+
+    // todo - refactor to extract logic into journey
     public async Task<int> SetTechnologyDependency(TechnologyDependency newTechnologyDependency)
     {
         var query = @"SELECT * FROM get_technology_dependencies(@technology_identifier);";
