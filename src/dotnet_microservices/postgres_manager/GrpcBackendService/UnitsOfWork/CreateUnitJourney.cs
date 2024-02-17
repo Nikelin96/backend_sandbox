@@ -1,5 +1,4 @@
-﻿using DataAccessLibrary;
-using DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Models;
 using DataAccessLibrary.Repositories;
 
 namespace GrpcBackendService.UnitsOfWork;
@@ -16,14 +15,14 @@ public sealed class CreateUnitJourney
         _unitRepository = unitRepository;
     }
 
-    public async Task CreateEquipment(Stat stat, Unit unit, Price price)
+    public async Task CreateUnit(Stat stat, Unit unit, Price price)
     {
         try
         {
             var statId = await _statRepository.Create(stat);
             unit.StatId = statId;
-            var equipmentId = await _unitRepository.Create(unit);
-            price.EquipmentId = equipmentId;
+            var unitId = await _unitRepository.Create(unit);
+            price.UnitId = unitId;
             var priceId  = await _priceRepository.Create(price);
         }
         catch (Exception ex)
