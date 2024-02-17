@@ -27,3 +27,4 @@ bld/
 .vs/
 .vscode/
 .idea/
+/src/zig_scripts/zig-cache
