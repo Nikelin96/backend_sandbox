@@ -2,45 +2,31 @@ const std = @import("std");
 const hp = @import("./helper.zig");
 
 pub fn main() !void {
-    std.debug.print("Hello, world!\n", .{});
-    const a = 5;
-    const b = 10;
+    const file_path = "D:/backend_sandbox/src/zig_scripts/src/input.txt";
+    const allocator = std.heap.page_allocator;
+    const stdout = std.io.getStdOut().writer();
 
-    const result = hp.sum(a, b);
+    const file = try std.fs.cwd().openFile(file_path, .{});
+    defer file.close();
 
-    std.debug.print("result: {}\n", .{result});
+    var int_list = std.ArrayList(i32).init(allocator);
+    defer int_list.deinit();
+
+    var buf_reader = std.io.bufferedReader(file.reader());
+    var in_stream = buf_reader.reader();
+    var buf: [1024]u8 = undefined;
+    var result: u16 = 0;
+    while (try in_stream.readUntilDelimiterOrEof(&buf, '\n')) |line| {
+        try stdout.print("Line: {s}\n", .{line});
+
+        result += try hp.getTwoDigitNumber(line);
+    }
+    try stdout.print("Final result: {}\n", .{result});
+
     const stdin = std.io.getStdIn();
-
-    std.debug.print("Press Enter to exit...\n", .{});
-
     var buffer: [10]u8 = undefined;
-    // var input: i64 = undefined;
-    // if (try stdin.readUntilDelimiterOrEof(buf[0..], '\n')) |user_input| {
-    //     input = std.fmt.parseInt(i64, user_input, 10);
-    // } else {
-    //     input = @as(i64, 0);
-    // }
-    // Read from stdin; this waits for the user to press Enter
     _ = try stdin.read(buffer[0..]);
-
-    std.debug.print("Exiting.\n", .{});
 }
-
-// pub fn main() !void {
-//     // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-//     std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-
-//     // stdout is for the actual output of your application, for example if you
-//     // are implementing gzip, then only the compressed bytes should be sent to
-//     // stdout, not any debugging messages.
-//     const stdout_file = std.io.getStdOut().writer();
-//     var bw = std.io.bufferedWriter(stdout_file);
-//     const stdout = bw.writer();
-
-//     try stdout.print("Run `zig build test` to run the tests.\n", .{});
-
-//     try bw.flush(); // don't forget to flush!
-// }
 
 test "simple test" {
     var list = std.ArrayList(i32).init(std.testing.allocator);
@@ -52,7 +38,7 @@ test "simple test" {
 const parseInt = std.fmt.parseInt;
 
 test "parse integers" {
-    const input = "123 67 89,99";
+    const input = "123 sdfsdfsdf67 89,sdfsd99 sdcasd";
     const ally = std.testing.allocator;
 
     var list = std.ArrayList(u32).init(ally);
@@ -72,26 +58,3 @@ test "parse integers" {
         try std.testing.expectEqual(exp, actual);
     }
 }
-
-// // build with `zig build-exe cimport.zig -lc -lraylib`
-// const ray = @cImport({
-//     @cInclude("raylib.h");
-// });
-
-// pub fn main() void {
-//     const screenWidth = 800;
-//     const screenHeight = 450;
-
-//     ray.InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-//     defer ray.CloseWindow();
-
-//     ray.SetTargetFPS(60);
-
-//     while (!ray.WindowShouldClose()) {
-//         ray.BeginDrawing();
-//         defer ray.EndDrawing();
-
-//         ray.ClearBackground(ray.RAYWHITE);
-//         ray.DrawText("Hello, World!", 190, 200, 20, ray.LIGHTGRAY);
-//     }
-// }
