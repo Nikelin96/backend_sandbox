@@ -2,7 +2,8 @@ const std = @import("std");
 const hp = @import("./helper.zig");
 
 pub fn main() !void {
-    const file_path = "D:/backend_sandbox/src/zig_scripts/src/input.txt";
+    // const file_path = "D:/backend_sandbox/src/zig_scripts/src/input.txt";
+    const file_path = "/home/mykola/workplace/backend_sandbox/src/zig_scripts/src/input.txt";
     const allocator = std.heap.page_allocator;
     const stdout = std.io.getStdOut().writer();
 
