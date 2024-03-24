@@ -1,5 +1,0 @@
-initialize process
-start inspection
-set logging level
-wait for 10 items
-stop inspection
