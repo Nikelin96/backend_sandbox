@@ -2,10 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/src/rust_scripts/background_worker/target
-/src/rust_scripts/webassembly_worker/target
-/src/js_scripts/node_modules
-
 # User-specific files
 *.suo
 *.user
@@ -23,8 +19,27 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Visual Studio 2015 cache/options directory
+# vs-related files
 .vs/
 .vscode/
 .idea/
-/src/zig_scripts/zig-cache
+
+# rust-related files
+/src/rust_scripts/background_worker/target
+/src/rust_scripts/webassembly_worker/target
+
+# node-related files
+node_modules/
+
+# zig-related files
+zig-cache/
+zig-out/
+target/
+
+# yolo-related files
+runs/
+
+**/*.exe
+
+
+
